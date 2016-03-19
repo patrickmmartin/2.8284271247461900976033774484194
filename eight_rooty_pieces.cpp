@@ -5,180 +5,121 @@
 #include <cmath>
 #include <iostream>
 
-/*
- *
- *
- * a mixed bag of hand-crafted square root implementations as an aide memoire:
- *
- * aside from the closed form, or the version that simply doesn't bother with converging (fun example),
- * one discussion point allows us to touch upon epsilon comparisons (absolute value of epsilon) versus (eventually)
- * bits of precision - the latter being more what the user would expect
- * another follow on discussion point is - should the functions return double or float?
- * another discussion point is around convergence: is it guaranteed?
- * follow on point is : should the # of iteration strategies / precision be a parameter?
- *
- *
- * about the error handling...
- * negative numbers are not handled
- * and exploring the esoterica of the extremes of double are overlooked
- *
- * testing the sqrt functions - barring the deliberately terrible scan -
- * all the approaches converge and track each other well over the range of exp(80),
- * yes even the "Carmack" version...
- *
- *
- for (int i = -40 ; i < 40 ; i++)
- {
- double arg = exp(i);
- std::cout << sqrt(arg) << ", "
- << my_sqrt(arg) << ", "
- << my_sqrt_bablyonian(arg) << ", "
- << my_sqrt_newtonraphson(arg) << ", "
- << my_sqrt_range(arg) << ", "
- << my_sqrt_naive(arg) << ", "
- << my_sqrt_homage_to_carmack(arg) << ", "
- << std::endl;
- }
- *
- *
- */
-
 /**
  * explanation: closed form for the win!
  *
  * ok ... log x^y = y log x
  */
-double my_sqrt(double val)
-{
-
-	return exp(0.5 * log(val));
-}
+double my_sqrt(double val) { return exp(0.5 * log(val)); }
 
 /**
- * graphical explanation: iterative search for square root by successive reduction of difference
+ * graphical explanation: iterative search for square root by successive
+ * reduction of difference
  * between the 2 sides of a shape with the area of val.
  * pick one side, -  derive the other - split the difference for the next guess
  * Note the expression reduces to 2*x = 2*x when x*x = val
  */
-double my_sqrt_bablyonian(double val)
-{
-	double x = val / 2;
+double my_sqrt_bablyonian(double val) {
+  double x = val / 2;
 
-	int iterations = 0;
-	while (fabs((x * x) - val) > (val / 1E9))
-	{
-		x = 0.5 * (x + (val / x));
-		iterations++;
-	}
-// std::cout << "found after " << iterations << " " << x << std::endl;
+  while (fabs((x * x) - val) > (val / 1E9)) {
+    x = 0.5 * (x + (val / x));
+  }
 
-	return x;
+  return x;
 }
 
 /**
  * explanation: NR search for x^2 - value is 0
  * - note this relies upon knowing dy/dx is 2*x
  *   to avoid having to implement the full numerical gradient
- * graphical explanation: search for the zero by building a triangle from the current guess value
- *  and the gradient at that point, for which the prior factoid is handy, else a numerically estimated gradient
- *  will do, with the usual caveats about loss of precision - suggest this is a good discussion point
+ * graphical explanation: search for the zero by building a triangle from the
+ * current guess value
+ *  and the gradient at that point, for which the prior factoid is handy, else a
+ * numerically estimated gradient
+ *  will do, with the usual caveats about loss of precision - suggest this is a
+ * good discussion point
  */
-double my_sqrt_newtonraphson(double val)
-{
+double my_sqrt_newtonraphson(double val) {
 
-	double x = val / 2;
+  double x = val / 2;
 
-	int iterations = 0;
-	while (fabs((x * x) - val) > (val / 1E9))
-	{
-		// x * x - val is the function for which we seek the root
-		x = x - ((x * x - val) / (2 * x));
-		iterations++;
-	}
-// std::cout << "found after " << iterations << " " << x << std::endl;
-	return x;
-
+  while (fabs((x * x) - val) > (val / 1E9)) {
+    // x * x - val is the function for which we seek the root
+    x = x - ((x * x - val) / (2 * x));
+  }
+  return x;
 }
 
 /**
  * explanation: range reduction approach (does not rely upon good initial guess)
- * note that in contrast to techniques making use of the gradient of the function,
+ * note that in contrast to techniques making use of the gradient of the
+ * function,
  * the initial guesses need to cater for the value 1.
- * Note: rarely found in the wild as other better sqrt approaches are so well known.
+ * Note: rarely found in the wild as other better sqrt approaches are so well
+ * known.
  */
-double my_sqrt_range(double val)
-{
+double my_sqrt_range(double val) {
 
-	double upper = val;
-	double lower = 1;
-	if (val < 1)
-	{
-		upper = 1;
-		lower = 0;
-	}
+  double upper = val;
+  double lower = 1;
+  if (val < 1) {
+    upper = 1;
+    lower = 0;
+  }
 
-	double x = (lower + upper) / 2;
+  double x = (lower + upper) / 2;
 
-	int iterations = 0;
+  int iterations = 0;
 
-	while (iterations < 30)
-	{
+  while (iterations < 30) {
 
-		if (((x * x) > val))
-			upper = x;
-		else
-			lower = x;
+    if (((x * x) > val))
+      upper = x;
+    else
+      lower = x;
 
-		x = (lower + upper) / 2;
-		iterations++;
+    x = (lower + upper) / 2;
+    iterations++;
 
-// std::cout << iterations << " " << lower << " " << upper << std::endl;
+  }
 
-	}
-
-// std::cout << "found after " << iterations << " " << x << std::endl;
-
-	return x;
-
+  return x;
 }
 
 /**
- * explanation: very naive guess step and scan approach, reversing and decreasing step on each transition
+ * explanation: very naive guess step and scan approach, reversing and
+ * decreasing step on each transition
  * vulnerable to overshoot if the transition is missed
- * discussion point: an improvement the step could always be adjusted to head "the right way",
+ * discussion point: an improvement the step could always be adjusted to head
+ * "the right way",
  * but the magnitude would only be adjusted upon a crossing
  * other discussion point - it turns out that the convergence is
- *  sensitive to the accuracy of the function near the roots - if loss of precision leads to jagged
+ *  sensitive to the accuracy of the function near the roots - if loss of
+ * precision leads to jagged
  *  behaviour convergence may be be poor
  *
  */
-double my_sqrt_naive(double val)
-{
-	double x = val / 2;
-	double step = val / 2;
-	double lastdiff = 0;
-	double diff = (x * x) - val;
-	int iterations = 0;
-// std::cout << "step " << x << " " << step << std::endl;
-	while (fabs(diff) > (val / 1E9))
-	{
-		if (diff > 0)
-			x -= step;
-		else
-			x += step;
+double my_sqrt_naive(double val) {
+  double x = val / 2;
+  double step = val / 2;
+  double lastdiff = 0;
+  double diff = (x * x) - val;
 
-		if ((diff > 0) != (lastdiff > 0))
-		{
-			step = step * 0.5;
-// std::cout << "new step " << x << " " << step << std::endl;
-		}
-		lastdiff = diff;
-		diff = (x * x) - val;
-		iterations++;
-	}
-// std::cout << "found after " << iterations << " " << x << " " << step << std::endl;
+  while (fabs(diff) > (val / 1E9)) {
+    if (diff > 0)
+      x -= step;
+    else
+      x += step;
 
-	return x;
+    if ((diff > 0) != (lastdiff > 0)) {
+      step = step * 0.5;
+    }
+    lastdiff = diff;
+    diff = (x * x) - val;
+  }
+
+  return x;
 }
 
 /**
@@ -188,112 +129,89 @@ double my_sqrt_naive(double val)
  * note starting with 1, upper will be found in zero passes for y < 1
  *
  */
-double my_sqrt_binary(double val)
-{
+double my_sqrt_binary(double val) {
 
-	double lower = 0;
-	double upper = val;
+  double lower = 0;
+  double upper = val;
 
-	while ((upper * upper) < val)
-		upper *= 2;
+  while ((upper * upper) < val)
+    upper *= 2;
 
-	double x = (lower + upper) / 2;
+  double x = (lower + upper) / 2;
 
-	int iterations = 0;
+  int iterations = 0;
 
-	while (iterations < 30)
-	{
+  while (iterations < 30) {
 
-		if (((x * x) > val))
-			upper = x;
-		else
-			lower = x;
+    if (((x * x) > val))
+      upper = x;
+    else
+      lower = x;
 
-		x = (lower + upper) / 2;
-		iterations++;
+    x = (lower + upper) / 2;
+    iterations++;
+  }
 
-// std::cout << iterations << " " << lower << " " << upper << std::endl;
-
-	}
-
-// std::cout << "found after " << iterations << " " << x << std::endl;
-
-	return x;
-
+  return x;
 }
 
-
 /**
- * the point that any monotonically rising function attains a given value can be put in here
+ * the point that any monotonically rising function attains a given value can be
+ * put in here
  */
-int is_one(double guess, double val)
- {
-	 return ( (guess * guess ) > val) ? 1 : 0 ;
-	 // or ...
-//	 return ( (guess * guess * guess ) > val) ? 1 : 0 ;
- }
+int is_one(double guess, double val) {
+  return ((guess * guess) > val) ? 1 : 0;
+}
 
 /**
  *
- * a one-sided binary search version that will find seek the edge-
+ * a one-sided binary search version that will seek the edge-
  * double successively to obtain the upper range, use zero for the lower
  *
  */
-double my_sqrt_binary_for_joao(double val)
-{
+double my_sqrt_binary_for_joao(double val) {
 
-	double lower = 0;
-	double upper = 0.01;  // selecting a good initial guess for the whole domain	is actually worthy of another pub discussion...
+  double lower = 0;
+  double upper = 0.01; // selecting a good initial guess for the whole domain
+                       // is actually worthy of another pub discussion...
 
-	while (!is_one(upper, val))
-		upper *= 2;
+  while (!is_one(upper, val))
+    upper *= 2;
 
-	double x = (lower + upper) / 2;
+  double x = (lower + upper) / 2;
 
-	int iterations = 0;
+  while (fabs(1 - (lower / upper)) > 1e-8) {
 
-	while ( fabs(1 - (lower / upper)) > 1e-8)
-	{
+    if (is_one(x, val))
+      upper = x;
+    else
+      lower = x;
 
-		if (is_one(x, val))
-			upper = x;
-		else
-			lower = x;
+    x = (lower + upper) / 2;
 
-		x = (lower + upper) / 2;
-		iterations++;
+  }
 
-//	std::cout << iterations << " " << lower << " " << upper << std::endl;
-
-	}
-
-// std::cout << "found after " << iterations << " " << x << std::endl;
-
-	return x;
-
+  return x;
 }
-
-
 
 /**
- * explanation: just for fun, old example of a very fast approximate inverse square root,
+ * explanation: just for fun, old example of a very fast approximate inverse
+ * square root,
  * still works on Intel
  */
-double my_sqrt_homage_to_carmack(float x)
-{
-	// actually Chris Lomont version via SO, allegedly
-	// note: are we running on Little-Endian, hmm? :P
+double my_sqrt_homage_to_carmack(float x) {
+  // actually Chris Lomont version via SO, allegedly
+  // note: are we running on Little-Endian, hmm? :P
 
-	float xhalf = 0.5f * x;
-	int i = *(int*) &x; // get bits for floating value
-	i = 0x5f375a86 - (i >> 1); // gives initial guess y0
-	x = *(float*) &i; // convert bits back to float
-//	std::cout << "initial guess: " << 1 / x << std::endl; // to within 10% already!
-	x = x * (1.5f - xhalf * x * x); // Newton step, repeating increases accuracy
+  float xhalf = 0.5f * x;
+  int i = *(int *)&x;        // get bits for floating value
+  i = 0x5f375a86 - (i >> 1); // gives initial guess y0
+  x = *(float *)&i;          // convert bits back to float
 
-// gah! no iterations!!!!
+  // initial guess: to within 10% already!
+  x = x * (1.5f - xhalf * x * x); // Newton step, repeating increases accuracy
 
-	return 1 / x;
+  // gah! no iterations!!!!
 
+  return 1 / x;
 }
-

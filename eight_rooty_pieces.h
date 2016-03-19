@@ -9,24 +9,21 @@
 #define EIGHT_ROOTY_PIECES_H_
 
 
-//#include <limits.h>
-//
-//#include <math.h>
-//
-//#include <cmath>
-//#include <iostream>
-
 /*
  *
  *
  * a mixed bag of hand-crafted square root implementations as an aide memoire:
  *
- * aside from the closed form, or the version that simply doesn't bother with converging (fun example),
- * one discussion point allows us to touch upon epsilon comparisons (absolute value of epsilon) versus (eventually)
+ * aside from the closed form, or the version that simply doesn't bother with
+ converging (fun example),
+ * one discussion point allows us to touch upon epsilon comparisons (absolute
+ value of epsilon) versus (eventually)
  * bits of precision - the latter being more what the user would expect
- * another follow on discussion point is - should the functions return double or float?
+ * another follow on discussion point is - should the functions return double or
+ float?
  * another discussion point is around convergence: is it guaranteed?
- * follow on point is : should the # of iteration strategies / precision be a parameter?
+ * follow on point is : should the # of iteration strategies / precision be a
+ parameter?
  *
  *
  * about the error handling...
@@ -34,7 +31,8 @@
  * and exploring the esoterica of the extremes of double are overlooked
  *
  * testing the sqrt functions - barring the deliberately terrible scan -
- * all the approaches converge and track each other well over the range of exp(80),
+ * all the approaches converge and track each other well over the range of
+ exp(80),
  * yes even the "Carmack" version...
  *
  *
@@ -61,9 +59,9 @@
  */
 double my_sqrt(double val);
 
-
 /**
- * graphical explanation: iterative search for square root by successive reduction of difference
+ * graphical explanation: iterative search for square root by successive
+ * reduction of difference
  * between the 2 sides of a shape with the area of val.
  * pick one side, -  derive the other - split the difference for the next guess
  * Note the expression reduces to 2*x = 2*x when x*x = val
@@ -74,27 +72,35 @@ double my_sqrt_bablyonian(double val);
  * explanation: NR search for x^2 - value is 0
  * - note this relies upon knowing dy/dx is 2*x
  *   to avoid having to implement the full numerical gradient
- * graphical explanation: search for the zero by building a triangle from the current guess value
- *  and the gradient at that point, for which the prior factoid is handy, else a numerically estimated gradient
- *  will do, with the usual caveats about loss of precision - suggest this is a good discussion point
+ * graphical explanation: search for the zero by building a triangle from the
+ * current guess value
+ *  and the gradient at that point, for which the prior factoid is handy, else a
+ * numerically estimated gradient
+ *  will do, with the usual caveats about loss of precision - suggest this is a
+ * good discussion point
  */
 double my_sqrt_newtonraphson(double val);
 
 /**
  * explanation: range reduction approach (does not rely upon good initial guess)
- * note that in contrast to techniques making use of the gradient of the function,
+ * note that in contrast to techniques making use of the gradient of the
+ * function,
  * the initial guesses need to cater for the value 1.
- * Note: rarely found in the wild as other better sqrt approaches are so well known.
+ * Note: rarely found in the wild as other better sqrt approaches are so well
+ * known.
  */
 double my_sqrt_range(double val);
 
 /**
- * explanation: very naive guess step and scan approach, reversing and decreasing step on each transition
+ * explanation: very naive guess step and scan approach, reversing and
+ * decreasing step on each transition
  * vulnerable to overshoot if the transition is missed
- * discussion point: an improvement the step could always be adjusted to head "the right way",
+ * discussion point: an improvement the step could always be adjusted to head
+ * "the right way",
  * but the magnitude would only be adjusted upon a crossing
  * other discussion point - it turns out that the convergence is
- *  sensitive to the accuracy of the function near the roots - if loss of precision leads to jagged
+ *  sensitive to the accuracy of the function near the roots - if loss of
+ * precision leads to jagged
  *  behaviour convergence may be be poor
  *
  */
@@ -109,7 +115,6 @@ double my_sqrt_naive(double val);
  */
 double my_sqrt_binary(double val);
 
-
 /**
  *
  * a one-sided binary search version that will find seek the edge-
@@ -118,13 +123,11 @@ double my_sqrt_binary(double val);
  */
 double my_sqrt_binary_for_joao(double val);
 
-
 /**
- * explanation: just for fun, old example of a very fast approximate inverse square root,
+ * explanation: just for fun, old example of a very fast approximate inverse
+ * square root,
  * still works on Intel
  */
 double my_sqrt_homage_to_carmack(float x);
-
-
 
 #endif /* EIGHT_ROOTY_PIECES_H_ */

@@ -1,4 +1,4 @@
-CXXFLAGS =	-O2 -g -Wall -fmessage-length=0
+CXXFLAGS =	-O2 -g -Wall -fno-strict-aliasing -fmessage-length=0
 
 OBJS =		2.8284271247461900976033774484194.o eight_rooty_pieces.o
 
@@ -13,3 +13,15 @@ all:	$(TARGET)
 
 clean:
 	rm -f $(OBJS) $(TARGET)
+
+	
+format:
+	clang-format-3.5 -i  *.h *.cpp *.hpp # was -style=Webkit
+	git status
+
+format.win:
+	"c:\Program Files (x86)\LLVM\bin\clang-format.exe" -i eight_rooty_pieces.h eight_rooty_pieces.cpp 
+
+restore:
+	git checkout -- *.h *.hpp *.cpp
+	git status
