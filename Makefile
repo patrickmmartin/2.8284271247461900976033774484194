@@ -1,4 +1,4 @@
-CXXFLAGS =	-O2 -g -Wall -fno-strict-aliasing -fmessage-length=0
+CXXFLAGS =	-O2 -g -Wall -fno-strict-aliasing -fmessage-length=0 -static-libgcc -static-libstdc++
 
 OBJS =		2.8284271247461900976033774484194.o eight_rooty_pieces.o
 
@@ -7,7 +7,7 @@ LIBS =
 TARGET =	2.8284271247461900976033774484194.exe
 
 $(TARGET):	$(OBJS)
-	$(CXX) -o $(TARGET) $(OBJS) $(LIBS)
+	$(CXX) -o $(TARGET) $(OBJS) $(LIBS) $(CXXFLAGS)
 
 all:	$(TARGET)
 
