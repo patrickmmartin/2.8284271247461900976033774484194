@@ -17,7 +17,7 @@
 int main(void) {
 
 
-	 for (int i = -40 ; i < 40 ; i++)
+	 for (int i = -308 ; i < 308 ; i+=10)
 	 {
 	 double arg = exp(i);
 	 std::cout << sqrt(arg) << ", "
@@ -25,7 +25,7 @@ int main(void) {
 	 << my_sqrt_bablyonian(arg) << ", "
 	 << my_sqrt_newtonraphson(arg) << ", "
 	 << my_sqrt_range(arg) << ", "
-	 << my_sqrt_naive(arg) << ", "
+//	 << my_sqrt_naive(arg) << ", " // terribly inefficient
 	 << my_sqrt_homage_to_carmack(arg) << ", "
 	 << std::endl;
 	 }

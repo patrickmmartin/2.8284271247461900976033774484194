@@ -91,7 +91,7 @@ double my_sqrt_range(double val) {
  * explanation: very naive guess step and scan approach, reversing and
  * decreasing step on each transition
  * vulnerable to overshoot if the transition is missed
- * discussion point: an improvement the step could always be adjusted to head
+ * discussion point: as an improvement the step could always be adjusted to head
  * "the right way",
  * but the magnitude would only be adjusted upon a crossing
  * other discussion point - it turns out that the convergence is
