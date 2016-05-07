@@ -323,6 +323,11 @@ explanation: for each value in double: return value if value ^ 2 == input
 
 ## Conclusion
 
+So, let's review what we can get out of "implement sqrt()" in terms of discussion topics: closed form results versus algorithmic solutions - some understanding of complexity analysis, discussion on the many interesting properties of floating point calculations, bronze age mathematical algorithms, consideration of domains and ranges.
+I haven't even touched upon error handling, but it's needed. 
+ 
+ 
+
 ### What didn't make the cut
 
 bogosqrt:
@@ -331,6 +336,8 @@ bogosqrt:
 	while true:
 		if (d * d== input) return d
 		d = random_double()
+
+run time: stochastically bounded
 		
 bozosqrt:
  
@@ -338,6 +345,9 @@ bozosqrt:
 	while true:
 		if (d * d== input) return d
 		d = next_double(d)
+
+run time: runs in constant time!
+just a large constant!
 
 
 worstsqrt:
