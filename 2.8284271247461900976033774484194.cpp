@@ -17,10 +17,10 @@
 int main(void) {
 
 
-	 for (int i = -308 ; i < 308 ; i+=2)
+	 for (int i = -308 ; i < 308 ; i+=10)
 	 {
-	 double arg = pow(10, i);
-	 std::cout << arg << ": "<< sqrt(arg) << ", "
+	 double arg = exp(i);
+	 std::cout << sqrt(arg) << ", "
 	 << my_sqrt(arg) << ", "
 	 << my_sqrt_bablyonian(arg) << ", "
 	 << my_sqrt_newtonraphson(arg) << ", "
