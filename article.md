@@ -296,8 +296,8 @@ double successively to obtain the upper range, use zero for the lower
 
 ### Carmack method
 explanation: just for fun, old example of a very fast approximate inverse
-square root,
-still works on Intel
+square root, the obligatory xkcd reference [carmack_xkcd]
+still works (on Intel)
 
 	  // actually Chris Lomont version via SO, allegedly
 	  // note: are we running on Little-Endian, hmm? :P
@@ -380,4 +380,6 @@ References
 
 [questions] also, "questions" ?
 
- [householder_methods] https://en.wikipedia.org/wiki/Householder%27s_method
+[householder_methods] https://en.wikipedia.org/wiki/Householder%27s_method
+ 
+[carmack_xkcd] http://www.xkcd.com/664/ 
