@@ -25,6 +25,7 @@ So, anyhoo .... In the interest of proselytising for discussion topics that will
 "implement the square root function"
 ---
 
+https://en.wikipedia.org/wiki/Methods_of_computing_square_roots
 
 ### What one learns in asking this question
 
@@ -150,7 +151,7 @@ Graphical explanation:
 		- a numerically estimated gradient will do, for _extra discussion fuel_.
 	the intersection of that triangle with zero is the new trial
 	
-For _extra discussion fuel_ see also related to the Householder methods TODO(PMM) Householder 
+For _extra discussion fuel_ see also related to the Householder methods [householder_methods]
 
 
 ### Range reduction
@@ -379,4 +380,4 @@ References
 
 [questions] also, "questions" ?
 
- 
+ [householder_methods] https://en.wikipedia.org/wiki/Householder%27s_method
