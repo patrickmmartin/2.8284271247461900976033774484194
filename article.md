@@ -13,10 +13,11 @@ TODO(PMM) ref. Yegge blog rant, many, many others
 Open question for discussion: how many of these "questions" have genuine "breadth and depth"? [1]
 
 I suspect that's a genuinely tough attribute to imbue such a question with.
-My personal leaning is that my role as a technical interviewer is to generate _extra discussion fuel_ so that in the _initial 15 minutes_ * the candidate and I are forming a mutual opinion I will get as representative a sampling as possible.
-I leave "rooting out the axe murderers" etc. to other stages in the process.    
+My personal leaning is that my role as a technical interviewer is to generate _extra discussion fuel_ so that in the _initial 15 minutes_ * that the candidate and I are forming a mutual opinion, I will get as representative a sampling as possible.
 
-* because yes, we're all grown ups here, right? 
+I tend to leave "rooting out the axe murderers" etc. to other stages in the process.    
+
+* because yes, we're all grown ups here, right? Feel free to continue with the "endurance race" if you wish, if it makes you happy, though.   
 
 So, anyhoo .... In the interest of proselytising for discussion topics that will generate _extra discussion fuel_, here's a little fun question I've been carting around for some time and it's grown to either 
 * a number of sheets of paper, or
@@ -95,8 +96,15 @@ So much so I feel odd having to write the proof.
 	
 ooh ooh! _extra discussion fuel_ - which base might be better? TODO(PMM) I have no idea
 
+
+## Moving onto Search Algorithms
+
+To go completely "in depth" on this would require a discussion of convergence criteria and how one would guarantee an iterative solution actually completes.  
+TODO(PMM) - convergence tests and rules of thumbs
+ 
+
 ### Babylonian [babylonian]
-The graphical explanation: iterative search for square root by successive reduction of difference between the 2 sides of a shape with the area of val.
+The graphical explanation: iterative search for square root by successive reduction of difference in length between the 2 sides of a rectangle with the area of val.
 
 	pick side
 	derive other_side by A / side 
@@ -116,28 +124,26 @@ The graphical explanation: iterative search for square root by successive reduct
 
 x = 0.5 * (x + (val / x))
 
-You know, I wrote an explanation of the arithmetic when I was clearly off form (i.e.) in the same slightly stunned state as the candidate, but now I am engrossed in writing this it seems slightly obvious...
+You know, I wrote an explanation of the arithmetic when I was clearly off form (i.e. in the same slightly stunned state as the candidate), but now I am engrossed in writing this it seems slightly obvious...
 In this case, it's best to press on.
-The loop is controlled by a test on whether we're "near enough" to the answer _extra discussion fuel_ TODO(PMM) which one starts taking forever for smaller inputs?
+The loop is controlled by a test on whether we're "near enough" to the answer _extra discussion fuel_ TODO(PMM) which alogorithm start starts taking forever for smaller inputs?
 Note the new root guess reduces to x = 0.5 * 2 * x when x * x = val.
 Finally, note the mechanism for generating a new input always narrows the difference between the input and value / input. TODO(PMM) - why is this enough for convergence?
 
   
-
 Notable points:
 * possibly the only algorithm that you can implement using a piece of rope and a setsquare.
-* this *bronze age* technique takes only one iteration more than Newtown Raphson TODO(PMM) reference 
+* this *bronze age* technique takes only one iteration more than Newtown Raphson TODO(PMM) reference, check 
 
 ### Newton Raphson
 Explanation: Newton Raphson [newton_raphson] search for x^2 - value is 0
-- note this implementation relies upon knowing dy/dx is 2*x
-  to avoid having to implement the full numerical gradient
+- note this implementation relies upon "knowing" teh closed form result for dy/dx is 2*x, so we can skip the noise of having to numerically estimate the gradient.
   
 	double my_sqrt_newtonraphson(double val) {
 	
 	  double x = val / 2;
 	
-	  while (fabs((x * x) - val) > (val / 1E9)) {
+	  while (fabs((x * x) - val) > (val / ACCURACY_RATIO_INVERSE)) {
 	    // x * x - val is the function for which we seek the root
 	    x = x - ((x * x - val) / (2 * x));
 	  }
@@ -155,10 +161,7 @@ For _extra discussion fuel_ see also related to the Householder methods [househo
 
 
 ### Range reduction
-explanation: range reduction approach (does not rely upon good initial guess)
-note that in contrast to techniques making use of the gradient of the
-function,
-the initial guesses need to cater for the value 1.
+explanation: range reduction approach (does not rely upon a good initial guess) note that in contrast to techniques making use of the gradient of thefunction, the initial guesses need to cater for the value 1.
 
 	double my_sqrt_range(double val) {
 	
