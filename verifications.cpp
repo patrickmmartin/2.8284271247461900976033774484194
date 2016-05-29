@@ -59,8 +59,8 @@ TEST_CASE("Square roots are computed (full range)", "[algorithms]") {
 TEST_CASE("Square roots are computed (denorm range)", "[algorithms]") {
 
   // http://stackoverflow.com/questions/20065406/whats-the-largest-denormalized-and-normalized-number64bit-iee-754-1985
-  for (double arg = std::numeric_limits<double>::denorm_min();
-       arg < std::numeric_limits<double>::min(); arg *= 10) {
+  for (double arg = std::numeric_limits<double>::min();
+       arg > std::numeric_limits<double>::denorm_min(); arg /= 10) {
     CAPTURE(arg);
     auto std_sqrt = sqrt(arg);
     auto closed = my_sqrt(arg);

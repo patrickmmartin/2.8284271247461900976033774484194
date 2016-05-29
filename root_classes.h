@@ -12,6 +12,9 @@
 
 #include <math.h>
 
+/**
+ * class implementing calculating and logging closed form solution
+ */
 template <typename COUNTER = NullCounter> struct ClosedForm {
   double operator()(double value) {
     COUNTER counter;
@@ -19,6 +22,9 @@ template <typename COUNTER = NullCounter> struct ClosedForm {
   };
 };
 
+/**
+ * class implementing calculating and logging Babylonian solution
+ */
 template <typename COUNTER = NullCounter> struct Bablyonian {
   double operator()(double value) {
     COUNTER counter;
@@ -28,6 +34,27 @@ template <typename COUNTER = NullCounter> struct Bablyonian {
     counter(n, x);
     while ((n < 1000) && (fabs((x * x) - value) > (value / 1E9))) {
       x = 0.5 * (x + (value / x));
+      n++;
+      counter(n, x);
+    }
+    return x;
+  };
+};
+
+/**
+ * class implementing calculating and logging Newton Raphson solution
+ */
+template <typename COUNTER = NullCounter> struct NewtonRaphson {
+  double operator()(double value) {
+
+    COUNTER counter;
+    int n = 1;
+    double x = value / 2;
+
+    counter(n, x);
+    while ((n < 1000) && (fabs((x * x) - value) > (value / 1E9))) {
+      // x * x - value is the function for which we seek the root
+      x = x - ((x * x - value) / (2 * x));
       n++;
       counter(n, x);
     }
