@@ -8,7 +8,6 @@
 #ifndef EIGHT_ROOTY_PIECES_H_
 #define EIGHT_ROOTY_PIECES_H_
 
-
 /*
  *
  *

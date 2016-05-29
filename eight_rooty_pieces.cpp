@@ -81,7 +81,6 @@ double my_sqrt_range(double val) {
 
     x = (lower + upper) / 2;
     iterations++;
-
   }
 
   return x;
@@ -159,9 +158,7 @@ double my_sqrt_binary(double val) {
  * the point that any monotonically rising function attains a given value can be
  * put in here
  */
-int is_one(double guess, double val) {
-  return ((guess * guess) > val) ? 1 : 0;
-}
+int is_one(double guess, double val) { return ((guess * guess) > val) ? 1 : 0; }
 
 /**
  *
@@ -188,7 +185,6 @@ double my_sqrt_binary_for_joao(double val) {
       lower = x;
 
     x = (lower + upper) / 2;
-
   }
 
   return x;
