@@ -8,7 +8,11 @@ OBJS =		2.8284271247461900976033774484194.o \
 
 LIBS =
 
-TARGET =	2.8284271247461900976033774484194.exe
+ifeq ($(OSTYPE),WindowsNT)
+	TARGET =	2.8284271247461900976033774484194.exe
+else
+	TARGET =	2.8284271247461900976033774484194
+endif
 
 $(TARGET):	$(OBJS)
 	$(CXX) -o $(TARGET) $(OBJS) $(LIBS) $(CXXFLAGS)
@@ -33,3 +37,7 @@ format.win:
 restore:
 	git checkout -- *.h *.hpp *.cpp
 	git status
+
+
+test:
+	./$(TARGET)
