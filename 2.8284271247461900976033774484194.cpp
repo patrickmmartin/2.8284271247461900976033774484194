@@ -6,31 +6,7 @@
 // Description : find that root!
 //============================================================================
 
-#include <stdio.h>
-#include <stdlib.h>
 
-#include <math.h>
-#include <iostream>
+#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
+#include "catch/catch.hpp"
 
-#include "eight_rooty_pieces.h"
-
-int main(void) {
-
-
-	 for (int i = -308 ; i < 308 ; i+=10)
-	 {
-	 double arg = exp(i);
-	 std::cout << sqrt(arg) << ", "
-	 << my_sqrt(arg) << ", "
-	 << my_sqrt_bablyonian(arg) << ", "
-	 << my_sqrt_newtonraphson(arg) << ", "
-	 << my_sqrt_range(arg) << ", "
-//	 << my_sqrt_naive(arg) << ", " // terribly inefficient
-	 << my_sqrt_homage_to_carmack(arg) << ", "
-	 << std::endl;
-	 }
-
-	return EXIT_SUCCESS;
-
-
-}
