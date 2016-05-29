@@ -19,20 +19,31 @@ typedef char const algo_id[];
  * simple no-op counter suitable for interposing
  */
 struct NullCounter {
-	double operator ()(int n, double value) {
-		return value;
-	}
+  double operator()(int n, double value) { return value; }
 };
 
 /**
- * simple no-op counter suitable for interposing
+ * simple printer for logging iterations
  */
 struct PrintingCounter {
-	double operator ()(int n, double value) {
-		std::cout << "[" << n << ", " << value <<"]\n";
-		return value;
-	}
+  double operator()(int n, double value) {
+    std::cout << "[" << n << ", " << value << "]\n";
+    return value;
+  }
 };
 
+/**
+ * simple printer for logging final result and n
+ */
+struct SummaryCounter {
+  int _n;
+  double _value;
+  double operator()(int n, double value) {
+    _n = n;
+    _value = value;
+    return value;
+  }
+  ~SummaryCounter() { std::cout << "[" << _n << ", " << _value << "]\n"; }
+};
 
 #endif /* ROOT_RUNNER_H_ */

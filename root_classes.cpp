@@ -9,10 +9,8 @@
 
 namespace {
 struct AlgoIds {
-	static algo_id closed;
+  static algo_id closed;
 };
 
 const char AlgoIds::closed[] = "closed";
-
 }
-

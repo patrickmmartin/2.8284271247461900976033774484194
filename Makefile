@@ -13,6 +13,8 @@ TARGET =	2.8284271247461900976033774484194.exe
 $(TARGET):	$(OBJS)
 	$(CXX) -o $(TARGET) $(OBJS) $(LIBS) $(CXXFLAGS)
 
+verifications_class.o : root_classes.h  root_runner.h
+
 all:	$(TARGET)
 
 clean:
@@ -24,7 +26,9 @@ format:
 	git status
 
 format.win:
-	"c:\Program Files (x86)\LLVM\bin\clang-format.exe" -i eight_rooty_pieces.h eight_rooty_pieces.cpp 
+	"c:\Program Files (x86)\LLVM\bin\clang-format.exe" -i eight_rooty_pieces.h eight_rooty_pieces.cpp\
+														  verifications.cpp  verifications_class.cpp\
+														  root_classes.cpp root_classes.h root_runner.h 
 
 restore:
 	git checkout -- *.h *.hpp *.cpp

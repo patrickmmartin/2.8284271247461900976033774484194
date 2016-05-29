@@ -11,19 +11,41 @@
 
 #include "root_classes.h"
 
-TEST_CASE( "Std matches closed form", "[classes]" ) {
+// std::numeric_limits<double>::denorm_min()   4.94066e-324
+// std::numeric_limits<double>::min()          2.22507e-308
 
-	// we can't call naive as way too slow
-	for (int i = -308; i < 308; i += 10) {
-		double arg = pow(10, i);
-		REQUIRE( sqrt(arg) == Approx(ClosedForm<>()(arg)) ); // note ultra small values are an issue!
+TEST_CASE("Std matches closed form", "[classes]") {
 
-	}
-
+  for (double arg = std::numeric_limits<double>::min();
+       arg < std::numeric_limits<double>::max(); arg *= 100) {
+    CAPTURE(arg);
+    REQUIRE(sqrt(arg) == Approx(ClosedForm<>()(arg)));
+  }
 }
 
+TEST_CASE("Std matches closed form for denorm range", "[classes]") {
 
+  for (double arg = std::numeric_limits<double>::denorm_min();
+       arg < std::numeric_limits<double>::min(); arg *= 10) {
+    CAPTURE(arg);
+    REQUIRE(sqrt(arg) == Approx(ClosedForm<>()(arg)));
+  }
+}
 
+TEST_CASE("Std matches babylonian", "[classes]") {
 
+  for (double arg = std::numeric_limits<double>::min();
+       arg < std::numeric_limits<double>::max(); arg *= 100) {
+    CAPTURE(arg);
+    REQUIRE(sqrt(arg) == Approx(Bablyonian<>()(arg)));
+  }
+}
 
+TEST_CASE("Std matches babylonian for denorm range", "[classes]") {
 
+  for (double arg = std::numeric_limits<double>::min();
+       arg > std::numeric_limits<double>::denorm_min(); arg /= 10) {
+    CAPTURE(arg);
+    REQUIRE(sqrt(arg) == Approx(Bablyonian<SummaryCounter>()(arg)));
+  }
+}
