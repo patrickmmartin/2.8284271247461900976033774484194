@@ -8,13 +8,15 @@
 #ifndef ROOT_RUNNER_H_
 #define ROOT_RUNNER_H_
 
+#include <iostream>
+
 /**
  * ID for the algo
  */
 typedef char const algo_id[];
 
 /**
- *
+ * simple no-op counter suitable for interposing
  */
 struct NullCounter {
 	double operator ()(int n, double value) {
@@ -23,12 +25,14 @@ struct NullCounter {
 };
 
 /**
- * template implements the algorithm
+ * simple no-op counter suitable for interposing
  */
-template<algo_id ALGO, typename COUNTER = NullCounter> struct Algo {
-	COUNTER counter;
-	double count(int n, double value) { return counter(n, value); }
-	double operator()(double value); // not implemented
+struct PrintingCounter {
+	double operator ()(int n, double value) {
+		std::cout << "[" << n << ", " << value <<"]\n";
+		return value;
+	}
 };
+
 
 #endif /* ROOT_RUNNER_H_ */

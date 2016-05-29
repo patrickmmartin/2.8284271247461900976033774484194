@@ -9,4 +9,18 @@
 #define ROOT_CLASSES_H_
 
 
+#include "root_runner.h"
+
+#include <math.h>
+
+template <typename COUNTER = NullCounter> struct ClosedForm
+{
+	double operator ()(double value) {
+		static COUNTER counter;
+		return counter(1, exp(0.5 * log(value)));
+	}
+	;
+};
+
+
 #endif /* ROOT_CLASSES_H_ */
