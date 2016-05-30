@@ -40,7 +40,7 @@ TEST_CASE("Square roots are computed (full range)", "[algorithms]") {
 
   // we can't call "naive" as way too slow
   for (double arg = std::numeric_limits<double>::min();
-       arg < std::numeric_limits<double>::max(); arg *= 100) {
+       arg < sqrt(std::numeric_limits<double>::max()); arg *= 100) {
     CAPTURE(arg);
     auto std_sqrt = sqrt(arg);
     auto closed = my_sqrt(arg);
