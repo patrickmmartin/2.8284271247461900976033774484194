@@ -49,7 +49,8 @@ template <typename COUNTER = NullCounter> struct NewtonRaphson {
 
     COUNTER counter;
     int n = 1;
-    double x = value / 2;
+    long double x =
+        value / 2; // TODO(PMM) investigate the origin of the overflows
 
     counter(n, x);
     while ((n < 1000) && (fabs((x * x) - value) > (value / 1E9))) {
