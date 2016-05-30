@@ -8,7 +8,7 @@ OBJS =		2.8284271247461900976033774484194.o \
 
 LIBS =
 
-ifeq ($(OSTYPE),WindowsNT)
+ifeq ($(OS),Windows_NT)
 	TARGET =	2.8284271247461900976033774484194.exe
 else
 	TARGET =	2.8284271247461900976033774484194
@@ -26,13 +26,14 @@ clean:
 
 	
 format:
-	clang-format-3.5 -i  *.h *.cpp *.hpp # was -style=Webkit
-	git status
-
-format.win:
+ifeq ($(OS),Windows_NT)
 	"c:\Program Files (x86)\LLVM\bin\clang-format.exe" -i eight_rooty_pieces.h eight_rooty_pieces.cpp\
 														  verifications.cpp  verifications_class.cpp\
 														  root_classes.cpp root_classes.h root_runner.h 
+else
+	clang-format-3.5 -i  *.h *.cpp *.hpp # was -style=Webkit
+	git status
+endif
 
 restore:
 	git checkout -- *.h *.hpp *.cpp

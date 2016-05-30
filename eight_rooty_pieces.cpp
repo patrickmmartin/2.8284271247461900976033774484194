@@ -72,7 +72,7 @@ double my_sqrt_range(double val) {
 
   int iterations = 0;
 
-  while (iterations < 30) {
+  while (iterations < 1000) {
 
     if (((x * x) > val))
       upper = x;

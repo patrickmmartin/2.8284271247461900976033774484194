@@ -11,6 +11,8 @@
 
 #include "root_classes.h"
 
+#pragma GCC diagnostic ignored "-Wparentheses"
+
 // std::numeric_limits<double>::denorm_min()   4.94066e-324
 // std::numeric_limits<double>::min()          2.22507e-308
 
