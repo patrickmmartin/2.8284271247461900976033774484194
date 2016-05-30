@@ -1,33 +1,48 @@
 CXXFLAGS =	-std=c++0x -O2 -g -Wall -fno-strict-aliasing -fmessage-length=0 -static-libgcc -static-libstdc++
 
-OBJS =		2.8284271247461900976033774484194.o \
-			eight_rooty_pieces.o\
+TESTSMAIN = 2.8284271247461900976033774484194.o
+
+DUMPMAIN = dumpruns.o
+
+TESTSOBJS = eight_rooty_pieces.o\
 			root_classes.o\
 			verifications.o\
 			verifications_class.o\
 
+DUMPOBJS =
+
 LIBS =
 
 ifeq ($(OS),Windows_NT)
-	TARGET =	2.8284271247461900976033774484194.exe
+	TESTS =	2.8284271247461900976033774484194.exe
+	PRINTER = dumpruns.exe
 else
-	TARGET =	2.8284271247461900976033774484194
+	TESTS =	2.8284271247461900976033774484194
+	DUMPRUNS = dumpruns
 endif
 
-$(TARGET):	$(OBJS)
-	$(CXX) -o $(TARGET) $(OBJS) $(LIBS) $(CXXFLAGS)
+TARGETS = $(TESTS) $(PRINTER)
+
+$(TESTS): $(TESTSMAIN) $(TESTOBJS)
+	$(CXX) -o $(TESTS) $(TESTSMAIN) $(TESTSOBJS) $(LIBS) $(CXXFLAGS)
+
+$(PRINTER): $(DUMPMAIN) $(DUMPOBJS)
+	$(CXX) -o $(PRINTER) $(DUMPMAIN) $(DUMPOBJS) $(LIBS) $(CXXFLAGS)
+
+
 
 verifications_class.o : root_classes.h  root_runner.h
 
-all:	$(TARGET)
+all:	$(TARGETS)
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(DUMPRUNS) $(DUMPMAIN) $(OBJS) $(TARGETS)
 
 	
 format:
 ifeq ($(OS),Windows_NT)
-	"c:\Program Files (x86)\LLVM\bin\clang-format.exe" -i eight_rooty_pieces.h eight_rooty_pieces.cpp\
+	"c:\Program Files (x86)\LLVM\bin\clang-format.exe" -i dumpruns.cpp 2.8284271247461900976033774484194.cpp\
+														  eight_rooty_pieces.h eight_rooty_pieces.cpp\
 														  verifications.cpp  verifications_class.cpp\
 														  root_classes.cpp root_classes.h root_runner.h 
 else
@@ -41,4 +56,4 @@ restore:
 
 
 test:
-	./$(TARGET)
+	./$(TESTS)
