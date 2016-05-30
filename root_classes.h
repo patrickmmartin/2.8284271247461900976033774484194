@@ -55,7 +55,7 @@ template <typename COUNTER = NullCounter> struct NewtonRaphson {
     counter(n, x);
     while ((n < 1000) && (fabs((x * x) - value) > (value / 1E9))) {
       // x * x - value is the function for which we seek the root
-      x = x - ((x * x - value) / (2 * x));
+      x = x - ((x * x - value) / (2 * x)); // TODO(PMM) overflow here?
       n++;
       counter(n, x);
     }

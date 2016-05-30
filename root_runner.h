@@ -27,7 +27,7 @@ struct NullCounter {
  */
 struct PrintingCounter {
   double operator()(int n, double value) {
-    std::cout << "[" << n << ", " << value << "]\n";
+    std::cout << n << ", " << value << "\n";
     return value;
   }
 };
