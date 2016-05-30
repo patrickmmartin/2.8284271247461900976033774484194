@@ -48,13 +48,10 @@ TEST_CASE("Square roots are computed (full range)", "[algorithms]") {
     auto newton = my_sqrt_newtonraphson(arg);
     auto range = my_sqrt_range(arg);
 
-    // TODO(PMM) - check out the epsilon Approx uses
     REQUIRE(std_sqrt == Approx(closed));
     REQUIRE(std_sqrt == Approx(bablyonian));
     REQUIRE(std_sqrt == Approx(newton));
-    REQUIRE(std_sqrt == Approx(range)); //
-    // TODO(PMM)
-    // something fishy there
+    REQUIRE(std_sqrt == Approx(range));
   }
 }
 
@@ -70,11 +67,9 @@ TEST_CASE("Square roots are computed (denorm range)", "[algorithms]") {
     auto newton = my_sqrt_newtonraphson(arg);
     auto range = my_sqrt_range(arg);
 
-    // TODO(PMM) - check out the epsilon Approx uses
     REQUIRE(std_sqrt == Approx(closed));
     REQUIRE(std_sqrt == Approx(bablyonian));
     REQUIRE(std_sqrt == Approx(newton));
     REQUIRE(std_sqrt == Approx(range).epsilon(0.001));
-    // TODO(PMM) something fishy there
   }
 }
