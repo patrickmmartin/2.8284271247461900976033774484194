@@ -363,6 +363,10 @@ References
 ----
 
 
+[TODOREF1] https://en.wikipedia.org/wiki/Methods_of_computing_square_roots
+[TODOREF2] http://www.azillionmonkeys.com/qed/sqroot.html
+
+
 [1] why are we using questions?
 
 
