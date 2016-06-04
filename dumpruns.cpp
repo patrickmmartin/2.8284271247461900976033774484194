@@ -6,13 +6,16 @@
  */
 
 #include <iostream>
+#include <limits>
 
 #include "root_classes.h"
 
 int main(int argc, char *argv[]) {
 
-  double arg = 100;
+  double arg = 100 * sqrt(std::numeric_limits<double>::max());
 
+  std::cout << "std sqrt\n";
+  StdSqrt<PrintingCounter>()(arg);
   std::cout << "closed form\n";
   ClosedForm<PrintingCounter>()(arg);
   std::cout << "babylonian\n";

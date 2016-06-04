@@ -123,7 +123,9 @@ The graphical explanation: iterative search for square root by successive reduct
 
 
 	double my_sqrt_bablyonian(double val) {
-	  double x = val / 2;
+
+	  double x = seed_root();
+
 	  while (fabs((x * x) - val) > (val / ACCURACY_RATIO_INVERSE)) {
 	    x = 0.5 * (x + (val / x));
 	  }
@@ -131,26 +133,26 @@ The graphical explanation: iterative search for square root by successive reduct
 	}
 
 
-x = 0.5 * (x + (val / x))
-
 You know, I wrote an explanation of the arithmetic when I was clearly off form (i.e. in the same slightly stunned state as the candidate), but now I am engrossed in writing this it seems slightly obvious...
 In this case, it's best to press on.
 The loop is controlled by a test on whether we're "near enough" to the answer _extra discussion fuel_ TODO(PMM) which alogorithm start starts taking forever for smaller inputs?
+
 Note the new root guess reduces to x = 0.5 * 2 * x when x * x = val.
+
 Finally, note the mechanism for generating a new input always narrows the difference between the input and value / input. TODO(PMM) - why is this enough for convergence?
 
   
 Notable points:
 * possibly the only algorithm that you can implement using a piece of rope and a setsquare.
-* this *bronze age* technique takes only one iteration more than Newtown Raphson TODO(PMM) reference, check 
+* one fact I had not appreciated about this *bronze age* technique is that it reduces to the following Newtown Raphson
 
 ### Newton Raphson
-Explanation: Newton Raphson [newton_raphson] search for x^2 - value is 0
-- note this implementation relies upon "knowing" teh closed form result for dy/dx is 2*x, so we can skip the noise of having to numerically estimate the gradient.
+Explanation: Newton Raphson [newton_raphson] search for the root of (x^2 - value) 
+- note this implementation relies upon plugging in the closed form result for dy/dx as 2*x, so we can skip the noise of having to numerically estimate the gradient.
   
 	double my_sqrt_newtonraphson(double val) {
 	
-	  double x = val / 2;
+	  double x = seed_root();
 	
 	  while (fabs((x * x) - val) > (val / ACCURACY_RATIO_INVERSE)) {
 	    // x * x - val is the function for which we seek the root
@@ -167,6 +169,31 @@ Graphical explanation:
 	the intersection of that triangle with zero is the new trial
 	
 For _extra discussion fuel_ see also related to the Householder methods [householder_methods]
+
+So both loops so far have used identical loops with different expressions in the middle.
+Let's take a closed look at that expression: that with the closed form for the gradient we get this expression:
+      
+      x = x - ((x * x - value) / (2 * x));
+
+      factoring out 2 * x we get
+      x = 0.5 * (2x - (x - (value /x)))
+     
+      and there we are: Hero's method from previously
+      x = 0.5 * (x + (value / x)) 
+      
+So confession time - having encountered the two methods independently I missed the equivalence between them until I printed out the iteration values.
+
+Yet another confession - even with the mathematical equivalence there was still a difference as the version just shown has an issue - it fails to locate values roots above sqrt(std::numeric_limits<double>::max()).
+
+The fix - perhaps unsurprisingly enough - is thus:
+	  double x = seed_root();
+	  _long_ double x = seed_root();
+	  
+The Bablyonian method may be superior due to the simpler expression that eliminates the need to raise intermediate expressions to higher powers that run the risk of overflow. 
+
+But, again all the above are good _extra discussion fuel_
+
+TODO(PMM) work through pros and cons of long double vs. double
 
 
 ### Range reduction

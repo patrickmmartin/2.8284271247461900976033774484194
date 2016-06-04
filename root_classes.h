@@ -12,6 +12,22 @@
 
 #include <math.h>
 
+double seed_root(double value) {
+  int n = log10(value);
+
+  return pow(10, n / 2);
+}
+
+/**
+ * class implementing calculating and logging closed form solution
+ */
+template <typename COUNTER = NullCounter> struct StdSqrt {
+  double operator()(double value) {
+    COUNTER counter;
+    return counter(1, sqrt(value));
+  };
+};
+
 /**
  * class implementing calculating and logging closed form solution
  */
@@ -29,7 +45,8 @@ template <typename COUNTER = NullCounter> struct Bablyonian {
   double operator()(double value) {
     COUNTER counter;
     int n = 1;
-    double x = value / 2;
+
+    double x = seed_root(value);
 
     counter(n, x);
     while ((n < 1000) && (fabs((x * x) - value) > (value / 1E9))) {
@@ -46,16 +63,15 @@ template <typename COUNTER = NullCounter> struct Bablyonian {
  */
 template <typename COUNTER = NullCounter> struct NewtonRaphson {
   double operator()(double value) {
-
     COUNTER counter;
     int n = 1;
-    long double x =
-        value / 2; // TODO(PMM) investigate the origin of the overflows
+
+    long double x = seed_root(value);
 
     counter(n, x);
     while ((n < 1000) && (fabs((x * x) - value) > (value / 1E9))) {
       // x * x - value is the function for which we seek the root
-      x = x - ((x * x - value) / (2 * x)); // TODO(PMM) overflow here?
+      x = x - ((x * x - value) / (2 * x));
       n++;
       counter(n, x);
     }
