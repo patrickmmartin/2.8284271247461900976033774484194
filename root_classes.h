@@ -12,11 +12,15 @@
 
 #include <math.h>
 
+namespace {
+
 double seed_root(double value) {
   int n = log10(value);
 
   return pow(10, n / 2);
 }
+
+} // end anonymous namespace
 
 /**
  * class implementing calculating and logging closed form solution
