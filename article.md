@@ -2,7 +2,7 @@ Eight Rooty Pieces
 ===
 
 Interview Questions
----
+===
 
 _Sigh_ Some things we have to deal with.
 Interview Questions.
@@ -65,20 +65,28 @@ I would like to think we can short-circuit this and skip straight to Acceptance 
 		long double sqrtl(long double x);
 
 
-## Eight (or so) approaches
+Eight (or so) approaches
+===
 
-### Caveat
+Caveat
+---
+
 Please remember it may be hard to find canonical examples "out there" of some of these algorithms.
 This is because they are in fact, completely rubbish.
 I'll try to point out the most egregious transgressions. 
 The others are pretty much the Gold Standard, so I should really only direct anyone to other people's more considered knowledge on the topic.
 Remember though, the name of the game here is to get _extra discussion fuel_, any and all means are acceptable.
 
-### Alien Technology
+Alien Technology
+---
+
 An additional benefit of these discussions is when a _novel implementation_ arises, having a little preparation will serve you well in recognising a variant of one of the following principles and steering the code/conversation in a more productive direction for _extra discussion fuel_.
 
 
-### Closed form FOR THE WIN
+
+Closed form FOR THE WIN
+--
+
 explanation: closed form for the win!
 
 	return exp(0.5 * log(val));
@@ -97,7 +105,8 @@ So much so I feel odd having to write the proof.
 ooh ooh! _extra discussion fuel_ - which base might be better? TODO(PMM) I have no idea
 
 
-## Moving onto Search Algorithms
+Moving onto Search Algorithms
+---
 
 To go completely "in depth" on this would require a discussion of convergence criteria and how one would guarantee an iterative solution actually completes.  
 TODO(PMM) - convergence tests and rules of thumbs
