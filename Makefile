@@ -32,7 +32,7 @@ $(DUMPRUNS): $(DUMPMAIN) $(DUMPOBJS)
 
 
 verifications_class.o : root_classes.h root_runner.h
-verifications.o : eight_rooty_pieces.c  eight_rooty_pieces.h
+verifications.o : eight_rooty_pieces.cpp  eight_rooty_pieces.h
 dumpruns.o : root_classes.h root_runner.h 
 
 all:	$(TARGETS)
