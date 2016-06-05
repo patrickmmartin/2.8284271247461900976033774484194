@@ -57,8 +57,8 @@ restore:
 	git status
 
 
-test:
+test: $(TESTS)
 	./$(TESTS)
 
-dump:
+dump: $(DUMPRUNS)
 	./$(DUMPRUNS)	
