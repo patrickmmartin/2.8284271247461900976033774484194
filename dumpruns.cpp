@@ -20,6 +20,8 @@ int main(int argc, char *argv[]) {
   ClosedForm<PrintingCounter>()(arg);
   std::cout << "babylonian\n";
   Bablyonian<PrintingCounter>()(arg);
-  std::cout << "Newtown Raphson\n";
+  std::cout << "Newtown Raphson CF\n";
   NewtonRaphsonCF<PrintingCounter>()(arg);
+  std::cout << "Newtown Raphson ND\n";
+  NewtonRaphsonND<PrintingCounter>()(arg);
 }
