@@ -112,7 +112,7 @@ To go completely "in depth" on this would require a discussion of convergence cr
 TODO(PMM) - convergence tests and rules of thumbs
  
 
-### Babylonian [babylonian]
+### Babylonian or Hero's method [babylonian]
 The graphical explanation: iterative search for square root by successive reduction of difference in length between the 2 sides of a rectangle with the area of val.
 
 	pick side
@@ -121,6 +121,7 @@ The graphical explanation: iterative search for square root by successive reduct
 	else split the difference for the next side and loop
 
 
+and hence:
 
 	double my_sqrt_bablyonian(double val) {
 
@@ -144,16 +145,16 @@ Finally, note the mechanism for generating a new input always narrows the differ
   
 Notable points:
 * possibly the only algorithm that you can implement using a piece of rope and a setsquare.
-* one fact I had not appreciated about this *bronze age* technique is that it reduces to the following Newtown Raphson
+* one fact I had not appreciated about this *bronze age* technique is that it reduces to one implementation of the following:- Newtown Raphson
 
 ### Newton Raphson
 Explanation: Newton Raphson [newton_raphson] search for the root of (x^2 - value) 
-- note this implementation relies upon plugging in the closed form result for dy/dx as 2*x, so we can skip the noise of having to numerically estimate the gradient.
+Note this implementation relies upon plugging in the closed form result for dy/dx as 2*x, so we can skip the noise of having to numerically estimate the gradient.
   
 	double my_sqrt_newtonraphson(double val) {
 	
-	  double x = seed_root();
-	
+          double x = seed_root();
+          
 	  while (fabs((x * x) - val) > (val / ACCURACY_RATIO_INVERSE)) {
 	    // x * x - val is the function for which we seek the root
 	    x = x - ((x * x - val) / (2 * x));
@@ -186,10 +187,11 @@ So confession time - having encountered the two methods independently I missed t
 Yet another confession - even with the mathematical equivalence there was still a difference as the version just shown has an issue - it fails to locate values roots above sqrt(std::numeric_limits<double>::max()).
 
 The fix - perhaps unsurprisingly enough - is thus:
-	  double x = seed_root();
-	  _long_ double x = seed_root();
+
+         - double x = seed_root();
+         + _long_ double x = seed_root();
 	  
-The Bablyonian method may be superior due to the simpler expression that eliminates the need to raise intermediate expressions to higher powers that run the risk of overflow. 
+The Bablyonian method is arguably more straightforward due to the simpler expression that eliminates the need to raise intermediate expressions to higher powers that run the risk of overflow. 
 
 But, again all the above are good _extra discussion fuel_
 
@@ -228,8 +230,7 @@ explanation: range reduction approach (does not rely upon a good initial guess) 
 	}
 
 
-Note: rarely found in the wild as other better sqrt approaches are so well
-known.
+Note: rarely found in the wild as other better sqrt approaches are so well known.
 
 ### Guess, Step and Scan 
 explanation: very naive guess step and scan approach, reversing and
