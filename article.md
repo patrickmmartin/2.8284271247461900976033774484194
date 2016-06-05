@@ -149,15 +149,15 @@ Notable points:
 
 ### Newton Raphson
 Explanation: Newton Raphson [newton_raphson] search for the root of (x^2 - value) 
-Note this implementation relies upon plugging in the closed form result for dy/dx as 2*x, so we can skip the noise of having to numerically estimate the gradient.
   
 	double my_sqrt_newtonraphson(double val) {
 	
           double x = seed_root();
           
 	  while (fabs((x * x) - val) > (val / ACCURACY_RATIO_INVERSE)) {
-	    // x * x - val is the function for which we seek the root
-	    x = x - ((x * x - val) / (2 * x));
+          // x * x - value is the function for which we seek the root
+          double gradient = (((x * 1.5) * (x * 1.5)) - ((x * 0.5) * (x * 0.5))) / (x);
+          x = x - ((x * x - value) / gradient);
 	  }
 	  return x;
 	}
@@ -171,7 +171,26 @@ Graphical explanation:
 	
 For _extra discussion fuel_ see also related to the Householder methods [householder_methods]
 
-So both loops so far have used identical loops with different expressions in the middle.
+
+
+
+
+### With Closed form for the gradient 
+This implementation relies upon knowing the result `d(x^2)/x = 2x` and hence plugging in the closed form result for dy/dx as 2*x, so we can skip the noise of having to numerically estimate the gradient.
+
+	double my_sqrt_newtonraphson(double val) {
+	
+          double x = seed_root();
+          
+	  while (fabs((x * x) - val) > (val / ACCURACY_RATIO_INVERSE)) {
+	    // x * x - val is the function for which we seek the root
+	    x = x - ((x * x - val) / _(2 * x)_);
+	  }
+	  return x;
+	}
+  
+
+So far all the loops have used identical loops, merely with different expressions in the middle.
 Let's take a closed look at that expression: that with the closed form for the gradient we get this expression:
       
       x = x - ((x * x - value) / (2 * x));
@@ -182,20 +201,26 @@ Let's take a closed look at that expression: that with the closed form for the g
       and there we are: Hero's method from previously
       x = 0.5 * (x + (value / x)) 
       
-So confession time - having encountered the two methods independently I missed the equivalence between them until I printed out the iteration values.
+So confession time - having encountered the two methods (Bablyonian and Newton Raphson) independently, I missed the equivalence between them until I printed out the iteration values.
 
-Yet another confession - even with the mathematical equivalence there was still a difference as the version just shown has an issue - it fails to locate values roots above sqrt(std::numeric_limits<double>::max()).
+Yet another confession - even with the mathematical equivalence there was still a difference as the version just shown has an issue - it fails to locate values roots above sqrt(std::numeric_limits<double>::max()). 
 
 The fix - perhaps unsurprisingly enough - is thus:
 
          - double x = seed_root();
          + _long_ double x = seed_root();
 	  
+Another discussion point is the necessity of introducing the long version of the type in the algorithm. Is this a maintenance wart, or good numerical analysis?
+
+Also, at this point, the candidate may re-visit their choice of input and output types.
+
 The Bablyonian method is arguably more straightforward due to the simpler expression that eliminates the need to raise intermediate expressions to higher powers that run the risk of overflow. 
 
 But, again all the above are good _extra discussion fuel_
 
 TODO(PMM) work through pros and cons of long double vs. double
+
+
 
 
 ### Range reduction
