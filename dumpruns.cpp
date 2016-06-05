@@ -21,5 +21,5 @@ int main(int argc, char *argv[]) {
   std::cout << "babylonian\n";
   Bablyonian<PrintingCounter>()(arg);
   std::cout << "Newtown Raphson\n";
-  NewtonRaphson<PrintingCounter>()(arg);
+  NewtonRaphsonCF<PrintingCounter>()(arg);
 }

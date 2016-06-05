@@ -65,7 +65,7 @@ template <typename COUNTER = NullCounter> struct Bablyonian {
 /**
  * class implementing calculating and logging Newton Raphson solution
  */
-template <typename COUNTER = NullCounter> struct NewtonRaphson {
+template <typename COUNTER = NullCounter> struct NewtonRaphsonCF {
   double operator()(double value) {
     COUNTER counter;
     int n = 1;
