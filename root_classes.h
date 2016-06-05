@@ -96,11 +96,47 @@ template <typename COUNTER = NullCounter> struct NewtonRaphsonND {
     counter(n, x);
     while ((n < 1000) && (fabs((x * x) - value) > (value / 1E9))) {
       // x * x - value is the function for which we seek the root
-      double gradient = (((x * 1.5) * (x * 1.5)) - ((x * 0.5) * (x * 0.5))) / (x);
+      double gradient =
+          (((x * 1.5) * (x * 1.5)) - ((x * 0.5) * (x * 0.5))) / (x);
       x = x - ((x * x - value) / gradient);
       n++;
       counter(n, x);
     }
+    return x;
+  };
+};
+
+/**
+ * class implementing range reduction solution
+ */
+template <typename COUNTER = NullCounter> struct RangeReduction {
+  double operator()(double value) {
+    COUNTER counter;
+
+    double upper = value;
+    double lower = 1;
+    if (value < 1) {
+      upper = 1;
+      lower = 0;
+    }
+
+    double x = (lower + upper) / 2;
+
+    int n = 1;
+
+    while ((n < 1000) && (fabs((x * x) - value) > (value / 1E9))) {
+
+      counter(n, x);
+
+      if (((x * x) > value))
+        upper = x;
+      else
+        lower = x;
+
+      x = (lower + upper) / 2;
+      n++;
+    }
+
     return x;
   };
 };

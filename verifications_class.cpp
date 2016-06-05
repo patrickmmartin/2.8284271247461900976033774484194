@@ -97,11 +97,30 @@ TEST_CASE("Newton Raphson CF matches Newton Raphson ND", "[classes]") {
   }
 }
 
-TEST_CASE("Newton Raphson CF matches Newton Raphson ND for denorm range", "[classes]") {
+TEST_CASE("Newton Raphson CF matches Newton Raphson ND for denorm range",
+          "[classes]") {
 
   for (double arg = std::numeric_limits<double>::min();
        arg > std::numeric_limits<double>::denorm_min(); arg /= 10) {
     CAPTURE(arg);
     REQUIRE(NewtonRaphsonCF<>()(arg) == NewtonRaphsonND<>()(arg));
+  }
+}
+
+TEST_CASE("Std matches Range Reduction", "[classes]") {
+
+  for (double arg = std::numeric_limits<double>::min();
+       arg < std::numeric_limits<double>::max(); arg *= 100) {
+    CAPTURE(arg);
+    REQUIRE(sqrt(arg) == Approx(RangeReduction<>()(arg)));
+  }
+}
+
+TEST_CASE("Std matches Range Reduction for denorm range", "[classes]") {
+
+  for (double arg = std::numeric_limits<double>::min();
+       arg > std::numeric_limits<double>::denorm_min(); arg /= 10) {
+    CAPTURE(arg);
+    REQUIRE(sqrt(arg) == Approx(RangeReduction<>()(arg)));
   }
 }

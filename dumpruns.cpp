@@ -12,7 +12,8 @@
 
 int main(int argc, char *argv[]) {
 
-  double arg = 100 * sqrt(std::numeric_limits<double>::max());
+  //  double arg = 100 * sqrt(std::numeric_limits<double>::max());
+  double arg = 200;
 
   std::cout << "std sqrt\n";
   StdSqrt<PrintingCounter>()(arg);
@@ -24,4 +25,6 @@ int main(int argc, char *argv[]) {
   NewtonRaphsonCF<PrintingCounter>()(arg);
   std::cout << "Newtown Raphson ND\n";
   NewtonRaphsonND<PrintingCounter>()(arg);
+  std::cout << "Range Reduction\n";
+  RangeReduction<PrintingCounter>()(arg);
 }
