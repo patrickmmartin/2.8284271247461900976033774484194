@@ -12,6 +12,8 @@
       
       
 
+maybe swap the order of the NR examples to illustrate the difference?
+
 
 	seed values
 	value < 10:  2 * 10^n
