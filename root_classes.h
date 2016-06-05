@@ -96,7 +96,7 @@ template <typename COUNTER = NullCounter> struct NewtonRaphsonND {
     counter(n, x);
     while ((n < 1000) && (fabs((x * x) - value) > (value / 1E9))) {
       // x * x - value is the function for which we seek the root
-      double gradient = (((x * 1.1) * (x * 1.1)) - ((x * 0.9) * (x * 0.9))) / (0.2 * x);
+      double gradient = (((x * 1.5) * (x * 1.5)) - ((x * 0.5) * (x * 0.5))) / (x);
       x = x - ((x * x - value) / gradient);
       n++;
       counter(n, x);
