@@ -1,3 +1,5 @@
+
+
       x = 0.5 * (x + (value / x));
       
       ===
@@ -12,7 +14,7 @@
       
       
 
-maybe swap the order of the NR examples to illustrate the difference?
+DONE maybe swap the order of the NR examples to illustrate the difference?
 
 
 	seed values
@@ -33,6 +35,10 @@ maybe swap the order of the NR examples to illustrate the difference?
 		my first instinct was to pick a smaller delta, which requires one more multiplication
 		      (((x * 1.1) * (x * 1.1)) - ((x * 0.9) * (x * 0.9))) / (0.2 * x)
 		      but no discernible difference! (even for the denorm)
+
+
+	## So, what dissuades people from hitting on this solution? Convergence anxiety?
+
 
 
 ## Don't fear the denorm! They're here to help!
