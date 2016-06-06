@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <iomanip>
 #include <limits>
 
 #include "root_classes.h"
@@ -15,7 +16,7 @@ int main(int argc, char *argv[]) {
   //  double arg = 100 * sqrt(std::numeric_limits<double>::max());
   double arg = 200;
 
-  std::cout << "std sqrt\n";
+  std::cout << "std sqrt\n" << std::setprecision(9);
   StdSqrt<PrintingCounter>()(arg);
   std::cout << "closed form\n";
   ClosedForm<PrintingCounter>()(arg);
@@ -26,5 +27,5 @@ int main(int argc, char *argv[]) {
   std::cout << "Newtown Raphson ND\n";
   NewtonRaphsonND<PrintingCounter>()(arg);
   std::cout << "Range Reduction\n";
-  RangeReduction<PrintingCounter>()(arg);
+  RangeReduction<PrintingRangeCounter>()(arg);
 }

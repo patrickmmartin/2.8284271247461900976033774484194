@@ -20,6 +20,10 @@ double seed_root(double value) {
   return pow(10, n / 2);
 }
 
+constexpr double TOLERANCE = 1E-9;
+constexpr int ITERATIONS = 30;
+constexpr int RANGE_ITERATIONS = 100;
+
 } // end anonymous namespace
 
 /**
@@ -53,7 +57,7 @@ template <typename COUNTER = NullCounter> struct Bablyonian {
     double x = seed_root(value);
 
     counter(n, x);
-    while ((n < 1000) && (fabs((x * x) - value) > (value / 1E9))) {
+    while ((n < ITERATIONS) && (fabs((x * x) - value) > (value * TOLERANCE))) {
       x = 0.5 * (x + (value / x));
       n++;
       counter(n, x);
@@ -73,7 +77,7 @@ template <typename COUNTER = NullCounter> struct NewtonRaphsonCF {
     long double x = seed_root(value);
 
     counter(n, x);
-    while ((n < 1000) && (fabs((x * x) - value) > (value / 1E9))) {
+    while ((n < ITERATIONS) && (fabs((x * x) - value) > (value * TOLERANCE))) {
       // x * x - value is the function for which we seek the root
       x = x - ((x * x - value) / (2 * x));
       n++;
@@ -94,7 +98,7 @@ template <typename COUNTER = NullCounter> struct NewtonRaphsonND {
     long double x = seed_root(value);
 
     counter(n, x);
-    while ((n < 1000) && (fabs((x * x) - value) > (value / 1E9))) {
+    while ((n < ITERATIONS) && (fabs((x * x) - value) > (value * TOLERANCE))) {
       // x * x - value is the function for which we seek the root
       double gradient =
           (((x * 1.5) * (x * 1.5)) - ((x * 0.5) * (x * 0.5))) / (x);
@@ -109,24 +113,21 @@ template <typename COUNTER = NullCounter> struct NewtonRaphsonND {
 /**
  * class implementing range reduction solution
  */
-template <typename COUNTER = NullCounter> struct RangeReduction {
+template <typename COUNTER = NullRangeCounter> struct RangeReduction {
   double operator()(double value) {
     COUNTER counter;
 
-    double upper = value;
-    double lower = 1;
-    if (value < 1) {
-      upper = 1;
-      lower = 0;
-    }
+    double upper = seed_root(value) * 10;
+    double lower = seed_root(value) / 10;
 
     double x = (lower + upper) / 2;
 
     int n = 1;
 
-    while ((n < 1000) && (fabs((x * x) - value) > (value / 1E9))) {
+    while ((n < RANGE_ITERATIONS) &&
+           (fabs((x * x) - value) > (value * TOLERANCE))) {
 
-      counter(n, x);
+      counter(n, lower, upper);
 
       if (((x * x) > value))
         upper = x;
