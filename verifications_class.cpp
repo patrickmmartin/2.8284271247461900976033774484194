@@ -124,3 +124,21 @@ TEST_CASE("Std matches Range Reduction for denorm range", "[classes]") {
     REQUIRE(sqrt(arg) == Approx(RangeReduction<>()(arg)));
   }
 }
+
+// TEST_CASE("Std matches Sweep and Step", "[classes]") {
+//
+//  for (double arg = std::numeric_limits<double>::min();
+//       arg < std::numeric_limits<double>::max(); arg *= 100000000) {
+//    CAPTURE(arg);
+//    REQUIRE(sqrt(arg) == Approx(ScanAndStep<>()(arg)));
+//  }
+//}
+
+// TEST_CASE("Std matches Sweep and Step for denorm range", "[classes]") {
+//
+//  for (double arg = std::numeric_limits<double>::min();
+//       arg > std::numeric_limits<double>::denorm_min(); arg /= 10) {
+//    CAPTURE(arg);
+//    REQUIRE(sqrt(arg) == Approx(ScanAndStep<>()(arg)));
+//  }
+//}

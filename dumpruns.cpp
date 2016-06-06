@@ -28,4 +28,8 @@ int main(int argc, char *argv[]) {
   NewtonRaphsonND<PrintingCounter>()(arg);
   std::cout << "Range Reduction\n";
   RangeReduction<PrintingRangeCounter>()(arg);
+  std::cout << "Step and Sweep\n";
+  ScanAndStep<PrintingRangeCounter>()(arg);
+
+  return 0;
 }

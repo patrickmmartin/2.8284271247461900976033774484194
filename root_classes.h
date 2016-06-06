@@ -142,4 +142,36 @@ template <typename COUNTER = NullRangeCounter> struct RangeReduction {
   };
 };
 
+/**
+ * class implementing step reduction solution
+ */
+template <typename COUNTER = NullRangeCounter> struct ScanAndStep {
+  double operator()(double value) {
+    COUNTER counter;
+
+    int n = 1;
+    double x = value / 2;
+    double step = value / 2;
+    double lastdiff = 0;
+    double diff = (x * x) - value;
+
+    while ((n < RANGE_ITERATIONS) && (fabs(diff) > (value * TOLERANCE))) {
+      if (diff > 0)
+        x -= step;
+      else
+        x += step;
+
+      counter(n, x, step);
+
+      if ((diff > 0) != (lastdiff > 0)) {
+        step = step * 0.5;
+      }
+      lastdiff = diff;
+      diff = (x * x) - value;
+    }
+
+    return x;
+  };
+};
+
 #endif /* ROOT_CLASSES_H_ */
