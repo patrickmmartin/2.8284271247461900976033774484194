@@ -127,7 +127,7 @@ and hence:
 
 	  double x = seed_root();
 
-	  while (fabs((x * x) - val) > (val / ACCURACY_RATIO_INVERSE)) {
+	  while (fabs((x * x) - val) > (val * TOLERANCE)) {
 	    x = 0.5 * (x + (val / x));
 	  }
 	  return x;
@@ -154,7 +154,7 @@ Explanation: Newton Raphson [newton_raphson] search for the root of (x^2 - value
 	
           double x = seed_root();
           
-	  while (fabs((x * x) - val) > (val / ACCURACY_RATIO_INVERSE)) {
+	  while (fabs((x * x) - val) > (val * TOLERANCE)) {
           // x * x - value is the function for which we seek the root
           double gradient = (((x * 1.5) * (x * 1.5)) - ((x * 0.5) * (x * 0.5))) / (x);
           x = x - ((x * x - value) / gradient);
@@ -182,7 +182,7 @@ This implementation relies upon knowing the result `d(x^2)/x = 2x` and hence plu
 	
           double x = seed_root();
           
-	  while (fabs((x * x) - val) > (val / ACCURACY_RATIO_INVERSE)) {
+	  while (fabs((x * x) - val) > (val * TOLERANCE)) {
 	    // x * x - val is the function for which we seek the root
 	    x = x - ((x * x - val) / _(2 * x)_);
 	  }
@@ -221,41 +221,39 @@ But, again all the above are good _extra discussion fuel_
 TODO(PMM) work through pros and cons of long double vs. double
 
 
-
-
 ### Range reduction
-explanation: range reduction approach (does not rely upon a good initial guess) note that in contrast to techniques making use of the gradient of thefunction, the initial guesses need to cater for the value 1.
+explanation: range reduction approach (does not rely upon a good initial guess, though the bounds do need to be ordered).
 
 	double my_sqrt_range(double val) {
 	
-	  double upper = val;
-	  double lower = 1;
-	  if (val < 1) {
-	    upper = 1;
-	    lower = 0;
-	  }
-	
-	  double x = (lower + upper) / 2;
-	
-	  int iterations = 0;
-	
-	  while (iterations < 30) {
-	
-	    if (((x * x) > val))
-	      upper = x;
-	    else
-	      lower = x;
-	
-	    x = (lower + upper) / 2;
-	    iterations++;
-	
-	  }
-	
-	  return x;
-	}
+    double upper = seed_root(value) * 10;
+    double lower = seed_root(value) / 10;
+
+    double x = (lower + upper) / 2;
+
+    int n = 1;
+
+    while ((n < RANGE_ITERATIONS) &&
+           (fabs((x * x) - value) > (value * TOLERANCE))) {
+
+      counter(n, lower, upper);
+
+      if (((x * x) > value))
+        upper = x;
+      else
+        lower = x;
+
+      x = (lower + upper) / 2;
+      n++;
+    }
+
+    return x;
+  }
+
 
 
 Note: rarely found in the wild as other better sqrt approaches are so well known.
+
 
 ### Guess, Step and Scan 
 explanation: very naive guess step and scan approach, reversing and
@@ -291,73 +289,6 @@ precision leads to jagged
 	  return x;
 	}
  
-
-### one sided binary search
-a one-sided binary search version -
-double successively to obtain the upper range, use zero for the lower
-note starting with 1, upper will be found in zero passes for y < 1
-
-	double my_sqrt_binary(double val) {
-	
-	  double lower = 0;
-	  double upper = val;
-	
-	  while ((upper * upper) < val)
-	    upper *= 2;
-	
-	  double x = (lower + upper) / 2;
-	
-	  int iterations = 0;
-	
-	  while (iterations < 30) {
-	
-	    if (((x * x) > val))
-	      upper = x;
-	    else
-	      lower = x;
-	
-	    x = (lower + upper) / 2;
-	    iterations++;
-	  }
-	
-	  return x;
-	}
-
-
-### one sided binary search 2
-a one-sided binary search version that will find seek the edge-
-double successively to obtain the upper range, use zero for the lower
-
-
-	int is_one(double guess, double val) {
-	  return ((guess * guess) > val) ? 1 : 0;
-	}
-
-	double my_sqrt_binary_for_joao(double val) {
-	
-	  double lower = 0;
-	  double upper = 0.01; // selecting a good initial guess for the whole domain
-	                       // is actually worthy of another pub discussion...
-	
-	  while (!is_one(upper, val))
-	    upper *= 2;
-	
-	  double x = (lower + upper) / 2;
-	
-	  while (fabs(1 - (lower / upper)) > 1e-8) {
-	
-	    if (is_one(x, val))
-	      upper = x;
-	    else
-	      lower = x;
-	
-	    x = (lower + upper) / 2;
-	
-	  }
-	
-	  return x;
-	}
-
 
 ### Carmack method
 explanation: just for fun, old example of a very fast approximate inverse square root.

@@ -44,3 +44,5 @@ DONE maybe swap the order of the NR examples to illustrate the difference?
 ## Don't fear the denorm! They're here to help!
 Note the range is handled separately, and so far, all the approaches handle it fine
 
+
+## the quick integer solution?
