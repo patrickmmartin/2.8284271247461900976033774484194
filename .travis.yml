@@ -1,2 +1,7 @@
 # should work with default for cpp projects 
 language: cpp
+
+# safelist
+branches:
+  only:
+  - master
