@@ -38,7 +38,7 @@ dumpruns.o : root_classes.h root_runner.h
 all:	$(TARGETS)
 
 clean:
-	rm -f $(DUMPRUNS) $(DUMPMAIN) $(TESTSOBJS) $(TARGETS)
+	-rm -f $(DUMPRUNS) $(DUMPMAIN) $(TESTSOBJS) $(TARGETS)
 
 	
 format:
