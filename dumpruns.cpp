@@ -10,16 +10,34 @@
 
 #include "root_classes.h"
 
-int main(int argc, char *argv[]) {
+int
+main (int argc, char *argv[])
+{
 
-  double arg = 100 * sqrt(std::numeric_limits<double>::max());
+	double arg = 1 * sqrt (std::numeric_limits<float>::max ());
 
-  std::cout << "std sqrt\n";
-  StdSqrt<PrintingCounter>()(arg);
-  std::cout << "closed form\n";
-  ClosedForm<PrintingCounter>()(arg);
-  std::cout << "babylonian\n";
-  Bablyonian<PrintingCounter>()(arg);
-  std::cout << "Newtown Raphson\n";
-  NewtonRaphson<PrintingCounter>()(arg);
+	std::cout << "std sqrt\n";
+	StdSqrt<PrintingCounter> () (arg);
+	std::cout << "\nclosed form\n";
+	ClosedForm<PrintingCounter> () (arg);
+	std::cout << "\nbabylonian\n";
+	Bablyonian<PrintingCounter> () (arg);
+	std::cout << "\nNewtown Raphson\n";
+	NewtonRaphson<PrintingCounter> () (arg);
+	std::cout << "\n";
+
+	std::cout << "input, closed form,closed form result,std sqrt,std sqrt result,Hero,Hero result, NR, NR result\n";
+	for (double arg = std::numeric_limits<double>::min ();
+			arg < std::numeric_limits<double>::max (); arg *= 1e100)
+		{
+			std::cout << arg << ", ";
+			ClosedForm<SummaryCounter> () (arg);
+			std::cout << ", ";
+			StdSqrt<SummaryCounter> () (arg);
+			std::cout << ", ";
+			Bablyonian<SummaryCounter> () (arg);
+			std::cout << ", ";
+			NewtonRaphson<SummaryCounter> () (arg);
+			std::cout << "\n";
+		}
 }

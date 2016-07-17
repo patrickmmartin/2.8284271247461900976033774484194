@@ -27,7 +27,7 @@ struct NullCounter {
  */
 struct PrintingCounter {
   double operator()(int n, double value) {
-    std::cout << n << ", " << value << "\n";
+    std::cout << n << ", " << value;
     return value;
   }
 };
@@ -43,7 +43,7 @@ struct SummaryCounter {
     _value = value;
     return value;
   }
-  ~SummaryCounter() { std::cout << "[" << _n << ", " << _value << "]\n"; }
+  ~SummaryCounter() { std::cout << _n << ", " << _value; }
 };
 
 #endif /* ROOT_RUNNER_H_ */
