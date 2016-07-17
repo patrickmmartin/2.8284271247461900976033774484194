@@ -38,7 +38,7 @@ dumpruns.o : root_classes.h root_runner.h
 all:	$(TARGETS)
 
 clean:
-	rm -f $(DUMPRUNS) $(DUMPMAIN) $(OBJS) $(TARGETS)
+	-rm -f $(DUMPRUNS) $(DUMPMAIN) $(TESTSOBJS) $(TARGETS)
 
 	
 format:
@@ -57,8 +57,8 @@ restore:
 	git status
 
 
-test:
+test: $(TESTS)
 	./$(TESTS)
 
-dump:
+dump: $(DUMPRUNS)
 	./$(DUMPRUNS)	

@@ -112,7 +112,7 @@ To go completely "in depth" on this would require a discussion of convergence cr
 TODO(PMM) - convergence tests and rules of thumbs
  
 
-### Babylonian [babylonian]
+### Babylonian or Hero's method [babylonian]
 The graphical explanation: iterative search for square root by successive reduction of difference in length between the 2 sides of a rectangle with the area of val.
 
 	pick side
@@ -121,12 +121,13 @@ The graphical explanation: iterative search for square root by successive reduct
 	else split the difference for the next side and loop
 
 
+and hence:
 
 	double my_sqrt_bablyonian(double val) {
 
 	  double x = seed_root();
 
-	  while (fabs((x * x) - val) > (val / ACCURACY_RATIO_INVERSE)) {
+	  while (fabs((x * x) - val) > (val * TOLERANCE)) {
 	    x = 0.5 * (x + (val / x));
 	  }
 	  return x;
@@ -144,19 +145,19 @@ Finally, note the mechanism for generating a new input always narrows the differ
   
 Notable points:
 * possibly the only algorithm that you can implement using a piece of rope and a setsquare.
-* one fact I had not appreciated about this *bronze age* technique is that it reduces to the following Newtown Raphson
+* one fact I had not appreciated about this *bronze age* technique is that it reduces to one implementation of the following:- Newtown Raphson
 
 ### Newton Raphson
 Explanation: Newton Raphson [newton_raphson] search for the root of (x^2 - value) 
-- note this implementation relies upon plugging in the closed form result for dy/dx as 2*x, so we can skip the noise of having to numerically estimate the gradient.
   
 	double my_sqrt_newtonraphson(double val) {
 	
-	  double x = seed_root();
-	
-	  while (fabs((x * x) - val) > (val / ACCURACY_RATIO_INVERSE)) {
-	    // x * x - val is the function for which we seek the root
-	    x = x - ((x * x - val) / (2 * x));
+          double x = seed_root();
+          
+	  while (fabs((x * x) - val) > (val * TOLERANCE)) {
+          // x * x - value is the function for which we seek the root
+          double gradient = (((x * 1.5) * (x * 1.5)) - ((x * 0.5) * (x * 0.5))) / (x);
+          x = x - ((x * x - value) / gradient);
 	  }
 	  return x;
 	}
@@ -170,7 +171,26 @@ Graphical explanation:
 	
 For _extra discussion fuel_ see also related to the Householder methods [householder_methods]
 
-So both loops so far have used identical loops with different expressions in the middle.
+
+
+
+
+### With Closed form for the gradient 
+This implementation relies upon knowing the result `d(x^2)/x = 2x` and hence plugging in the closed form result for dy/dx as 2*x, so we can skip the noise of having to numerically estimate the gradient.
+
+	double my_sqrt_newtonraphson(double val) {
+	
+          double x = seed_root();
+          
+	  while (fabs((x * x) - val) > (val * TOLERANCE)) {
+	    // x * x - val is the function for which we seek the root
+	    x = x - ((x * x - val) / _(2 * x)_);
+	  }
+	  return x;
+	}
+  
+
+So far all the loops have used identical loops, merely with different expressions in the middle.
 Let's take a closed look at that expression: that with the closed form for the gradient we get this expression:
       
       x = x - ((x * x - value) / (2 * x));
@@ -181,15 +201,20 @@ Let's take a closed look at that expression: that with the closed form for the g
       and there we are: Hero's method from previously
       x = 0.5 * (x + (value / x)) 
       
-So confession time - having encountered the two methods independently I missed the equivalence between them until I printed out the iteration values.
+So confession time - having encountered the two methods (Bablyonian and Newton Raphson) independently, I missed the equivalence between them until I printed out the iteration values.
 
-Yet another confession - even with the mathematical equivalence there was still a difference as the version just shown has an issue - it fails to locate values roots above sqrt(std::numeric_limits<double>::max()).
+Yet another confession - even with the mathematical equivalence there was still a difference as the version just shown has an issue - it fails to locate values roots above sqrt(std::numeric_limits<double>::max()). 
 
 The fix - perhaps unsurprisingly enough - is thus:
-	  double x = seed_root();
-	  _long_ double x = seed_root();
+
+         - double x = seed_root();
+         + _long_ double x = seed_root();
 	  
-The Bablyonian method may be superior due to the simpler expression that eliminates the need to raise intermediate expressions to higher powers that run the risk of overflow. 
+Another discussion point is the necessity of introducing the long version of the type in the algorithm. Is this a maintenance wart, or good numerical analysis?
+
+Also, at this point, the candidate may re-visit their choice of input and output types.
+
+The Bablyonian method is arguably more straightforward due to the simpler expression that eliminates the need to raise intermediate expressions to higher powers that run the risk of overflow. 
 
 But, again all the above are good _extra discussion fuel_
 
@@ -197,39 +222,38 @@ TODO(PMM) work through pros and cons of long double vs. double
 
 
 ### Range reduction
-explanation: range reduction approach (does not rely upon a good initial guess) note that in contrast to techniques making use of the gradient of thefunction, the initial guesses need to cater for the value 1.
+explanation: range reduction approach (does not rely upon a good initial guess, though the bounds do need to be ordered).
 
 	double my_sqrt_range(double val) {
 	
-	  double upper = val;
-	  double lower = 1;
-	  if (val < 1) {
-	    upper = 1;
-	    lower = 0;
-	  }
-	
-	  double x = (lower + upper) / 2;
-	
-	  int iterations = 0;
-	
-	  while (iterations < 30) {
-	
-	    if (((x * x) > val))
-	      upper = x;
-	    else
-	      lower = x;
-	
-	    x = (lower + upper) / 2;
-	    iterations++;
-	
-	  }
-	
-	  return x;
-	}
+    double upper = seed_root(value) * 10;
+    double lower = seed_root(value) / 10;
+
+    double x = (lower + upper) / 2;
+
+    int n = 1;
+
+    while ((n < RANGE_ITERATIONS) &&
+           (fabs((x * x) - value) > (value * TOLERANCE))) {
+
+      counter(n, lower, upper);
+
+      if (((x * x) > value))
+        upper = x;
+      else
+        lower = x;
+
+      x = (lower + upper) / 2;
+      n++;
+    }
+
+    return x;
+  }
 
 
-Note: rarely found in the wild as other better sqrt approaches are so well
-known.
+
+Note: rarely found in the wild as other better sqrt approaches are so well known.
+
 
 ### Guess, Step and Scan 
 explanation: very naive guess step and scan approach, reversing and
@@ -265,73 +289,6 @@ precision leads to jagged
 	  return x;
 	}
  
-
-### one sided binary search
-a one-sided binary search version -
-double successively to obtain the upper range, use zero for the lower
-note starting with 1, upper will be found in zero passes for y < 1
-
-	double my_sqrt_binary(double val) {
-	
-	  double lower = 0;
-	  double upper = val;
-	
-	  while ((upper * upper) < val)
-	    upper *= 2;
-	
-	  double x = (lower + upper) / 2;
-	
-	  int iterations = 0;
-	
-	  while (iterations < 30) {
-	
-	    if (((x * x) > val))
-	      upper = x;
-	    else
-	      lower = x;
-	
-	    x = (lower + upper) / 2;
-	    iterations++;
-	  }
-	
-	  return x;
-	}
-
-
-### one sided binary search 2
-a one-sided binary search version that will find seek the edge-
-double successively to obtain the upper range, use zero for the lower
-
-
-	int is_one(double guess, double val) {
-	  return ((guess * guess) > val) ? 1 : 0;
-	}
-
-	double my_sqrt_binary_for_joao(double val) {
-	
-	  double lower = 0;
-	  double upper = 0.01; // selecting a good initial guess for the whole domain
-	                       // is actually worthy of another pub discussion...
-	
-	  while (!is_one(upper, val))
-	    upper *= 2;
-	
-	  double x = (lower + upper) / 2;
-	
-	  while (fabs(1 - (lower / upper)) > 1e-8) {
-	
-	    if (is_one(x, val))
-	      upper = x;
-	    else
-	      lower = x;
-	
-	    x = (lower + upper) / 2;
-	
-	  }
-	
-	  return x;
-	}
-
 
 ### Carmack method
 explanation: just for fun, old example of a very fast approximate inverse square root.

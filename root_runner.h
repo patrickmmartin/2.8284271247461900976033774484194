@@ -23,12 +23,29 @@ struct NullCounter {
 };
 
 /**
+ * simple no-op counter suitable for interposing for range algorithms
+ */
+struct NullRangeCounter {
+  double operator()(int n, double lower, double upper) { return upper; }
+};
+
+/**
  * simple printer for logging iterations
  */
 struct PrintingCounter {
   double operator()(int n, double value) {
     std::cout << n << ", " << value;
     return value;
+  }
+};
+
+/**
+ * simple printer for logging iterations of range algorithms
+ */
+struct PrintingRangeCounter {
+  double operator()(int n, double lower, double upper) {
+    std::cout << n << ", " << lower << ", " << upper << "\n";
+    return upper;
   }
 };
 
@@ -44,6 +61,23 @@ struct SummaryCounter {
     return value;
   }
   ~SummaryCounter() { std::cout << _n << ", " << _value; }
+};
+
+/**
+ * simple printer for logging final result and n
+ */
+struct SummaryRangeCounter {
+  int _n;
+  double _lower, _upper;
+  double operator()(int n, double lower, double upper) {
+    _n = n;
+    _lower = lower;
+    _upper = upper;
+    return upper;
+  }
+  ~SummaryRangeCounter() {
+    std::cout << _n << ", " << _lower << ", " << _upper << "\n";
+  }
 };
 
 #endif /* ROOT_RUNNER_H_ */

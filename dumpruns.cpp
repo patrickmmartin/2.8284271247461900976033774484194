@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <iomanip>
 #include <limits>
 
 #include "root_classes.h"
@@ -23,7 +24,7 @@ main (int argc, char *argv[])
 	std::cout << "\nbabylonian\n";
 	Bablyonian<PrintingCounter> () (arg);
 	std::cout << "\nNewtown Raphson\n";
-	NewtonRaphson<PrintingCounter> () (arg);
+	NewtonRaphsonND<PrintingCounter> () (arg);
 	std::cout << "\n";
 
 	std::cout << "input, closed form,closed form result,std sqrt,std sqrt result,Hero,Hero result, NR, NR result\n";
@@ -37,7 +38,9 @@ main (int argc, char *argv[])
 			std::cout << ", ";
 			Bablyonian<SummaryCounter> () (arg);
 			std::cout << ", ";
-			NewtonRaphson<SummaryCounter> () (arg);
+			NewtonRaphsonND<SummaryCounter> () (arg);
 			std::cout << "\n";
 		}
+
+  return 0;
 }
