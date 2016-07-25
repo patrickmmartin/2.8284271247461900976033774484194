@@ -25,6 +25,7 @@ TEST_CASE("Square roots are computed (small range)", "[algorithms]") {
     auto range = my_sqrt_range(arg);
     auto naive = my_sqrt_naive(arg); // terribly inefficient
     auto DOOM = my_sqrt_homage_to_carmack(arg);
+    auto DOOM2 = my_sqrt_quake_64(arg);
 
     // TODO(PMM) - check out the epsilon Approx uses
     REQUIRE(std_sqrt == Approx(closed));
@@ -33,6 +34,7 @@ TEST_CASE("Square roots are computed (small range)", "[algorithms]") {
     REQUIRE(std_sqrt == Approx(range));
     REQUIRE(std_sqrt == Approx(naive));
     REQUIRE(std_sqrt == Approx(DOOM).epsilon(0.1));
+    REQUIRE(std_sqrt == Approx(DOOM2));
   }
 }
 
@@ -47,11 +49,13 @@ TEST_CASE("Square roots are computed (full range)", "[algorithms]") {
     auto bablyonian = my_sqrt_bablyonian(arg);
     auto newton = my_sqrt_newtonraphson(arg);
     auto range = my_sqrt_range(arg);
+    auto DOOM2 = my_sqrt_quake_64(arg);
 
     REQUIRE(std_sqrt == Approx(closed));
     REQUIRE(std_sqrt == Approx(bablyonian));
     REQUIRE(std_sqrt == Approx(newton));
     REQUIRE(std_sqrt == Approx(range));
+    REQUIRE(std_sqrt == Approx(DOOM2));
   }
 }
 
@@ -66,10 +70,12 @@ TEST_CASE("Square roots are computed (denorm range)", "[algorithms]") {
     auto bablyonian = my_sqrt_bablyonian(arg);
     auto newton = my_sqrt_newtonraphson(arg);
     auto range = my_sqrt_range(arg);
+    auto DOOM2 = my_sqrt_quake_64(arg);
 
     REQUIRE(std_sqrt == Approx(closed));
     REQUIRE(std_sqrt == Approx(bablyonian));
     REQUIRE(std_sqrt == Approx(newton));
     REQUIRE(std_sqrt == Approx(range).epsilon(0.001));
+    REQUIRE(std_sqrt == Approx(DOOM2));
   }
 }

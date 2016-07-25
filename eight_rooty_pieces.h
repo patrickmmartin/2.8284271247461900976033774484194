@@ -129,4 +129,11 @@ double my_sqrt_binary_for_joao(double val);
  */
 double my_sqrt_homage_to_carmack(float x);
 
+
+/**
+ * explanation: just for fun, update of alleged Quake inverse square root,
+ * still works on Intel
+ */
+double my_sqrt_quake_64(double x);
+
 #endif /* EIGHT_ROOTY_PIECES_H_ */

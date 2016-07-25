@@ -211,3 +211,14 @@ double my_sqrt_homage_to_carmack(float x) {
 
   return 1 / x;
 }
+
+double my_sqrt_quake_64(double x) {
+  long long i, r;
+  double x2 = x * 0.5, y = x;
+  i = *(long long *)&y;
+  i = 0x5fe6eb50c7b537a9 - (i >> 1);
+  y = *(double *)&i;
+  for (r = 0; r < 10; r++)
+    y = y * (1.5 - (x2 * y * y));
+  return x * y;
+}
