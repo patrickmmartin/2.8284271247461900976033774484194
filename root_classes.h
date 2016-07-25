@@ -174,4 +174,22 @@ template <typename COUNTER = NullRangeCounter> struct ScanAndStep {
   };
 };
 
+/**
+ * class implementing calculating and logging 64 bit Quake" solution
+ */
+template <typename COUNTER = NullCounter> struct Quake64 {
+  double operator()(double value) {
+    COUNTER counter;
+    long long i, r;
+    double x2 = value * 0.5, y = value;
+    i = *(long long *)&y;
+    i = 0x5fe6eb50c7b537a9 - (i >> 1);
+    y = *(double *)&i;
+    for (r = 0; r < 10; r++)
+      y = y * (1.5 - (x2 * y * y));
+    return counter(1, value * y);
+  };
+};
+
+
 #endif /* ROOT_CLASSES_H_ */
