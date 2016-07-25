@@ -125,6 +125,8 @@ TEST_CASE("Std matches Range Reduction for denorm range", "[classes]") {
   }
 }
 
+// the following two take a stunning amount of time
+
 // TEST_CASE("Std matches Sweep and Step", "[classes]") {
 //
 //  for (double arg = std::numeric_limits<double>::min();
