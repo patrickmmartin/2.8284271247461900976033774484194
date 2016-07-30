@@ -175,9 +175,9 @@ template <typename COUNTER = NullRangeCounter> struct ScanAndStep {
 };
 
 /**
- * class implementing calculating and logging 64 bit Quake" solution
+ * class implementing inverse square root solution with the good initial guess
  */
-template <typename COUNTER = NullCounter> struct Quake64 {
+template <typename COUNTER = NullCounter> struct Inverse {
   double operator()(double value) {
     COUNTER counter;
     long long i, r;
@@ -186,7 +186,10 @@ template <typename COUNTER = NullCounter> struct Quake64 {
     i = 0x5fe6eb50c7b537a9 - (i >> 1);
     y = *(double *)&i;
     for (r = 0; r < 10; r++)
-      y = y * (1.5 - (x2 * y * y));
+    {
+	  counter(1, value * y);
+	  y = y * (1.5 - (x2 * y * y));
+    }
     return counter(1, value * y);
   };
 };

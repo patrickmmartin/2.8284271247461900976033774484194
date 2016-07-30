@@ -130,7 +130,7 @@ TEST_CASE("Std matches Quake64", "[classes]") {
   for (double arg = std::numeric_limits<double>::min();
        arg < std::numeric_limits<double>::max(); arg *= 100) {
     CAPTURE(arg);
-    REQUIRE(sqrt(arg) == Approx(Quake64<>()(arg)));
+    REQUIRE(sqrt(arg) == Approx(Inverse<>()(arg)));
   }
 }
 
@@ -139,7 +139,7 @@ TEST_CASE("Std matches Quake64 for denorm Range", "[classes]") {
   for (double arg = std::numeric_limits<double>::min();
        arg > std::numeric_limits<double>::denorm_min(); arg /= 10) {
     CAPTURE(arg);
-    REQUIRE(sqrt(arg) == Approx(Quake64<>()(arg)));
+    REQUIRE(sqrt(arg) == Approx(Inverse<>()(arg)));
   }
 }
 

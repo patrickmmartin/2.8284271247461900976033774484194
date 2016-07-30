@@ -134,6 +134,12 @@ double my_sqrt_homage_to_carmack(float x);
  * explanation: just for fun, update of alleged Quake inverse square root,
  * still works on Intel
  */
-double my_sqrt_quake_64(double x);
+double my_sqrt_homage_to_carmack64(double x);
+
+/**
+ * explanation: inverse square root algorithm with initial guess using
+ * the magic value
+ */
+double my_inverse_sqrt(double x);
 
 #endif /* EIGHT_ROOTY_PIECES_H_ */

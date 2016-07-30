@@ -25,9 +25,11 @@ main (int argc, char *argv[])
 	Bablyonian<PrintingCounter> () (arg);
 	std::cout << "\nNewtown Raphson\n";
 	NewtonRaphsonND<PrintingCounter> () (arg);
+	std::cout << "\nQuake64\n";
+	Inverse<PrintingCounter> () (arg);
 	std::cout << "\n";
 
-	std::cout << "input, closed form,closed form result,std sqrt,std sqrt result,Hero,Hero result, NR, NR result\n";
+	std::cout << "input, closed form,closed form result,std sqrt,std sqrt result,Hero,Hero result, NR, NR result, Quake64, Quake64 result\n";
 	for (double arg = std::numeric_limits<double>::min ();
 			arg < std::numeric_limits<double>::max (); arg *= 1e100)
 		{
@@ -39,6 +41,8 @@ main (int argc, char *argv[])
 			Bablyonian<SummaryCounter> () (arg);
 			std::cout << ", ";
 			NewtonRaphsonND<SummaryCounter> () (arg);
+			std::cout << ",";
+			Inverse<SummaryCounter> () (arg);
 			std::cout << "\n";
 		}
 
