@@ -185,14 +185,12 @@ template <typename COUNTER = NullCounter> struct Inverse {
     i = *(long long *)&y;
     i = 0x5fe6eb50c7b537a9 - (i >> 1);
     y = *(double *)&i;
-    for (r = 0; r < 10; r++)
-    {
-	  counter(1, value * y);
-	  y = y * (1.5 - (x2 * y * y));
+    for (r = 0; r < 10; r++) {
+      counter(1, value * y);
+      y = y * (1.5 - (x2 * y * y));
     }
     return counter(1, value * y);
   };
 };
-
 
 #endif /* ROOT_CLASSES_H_ */

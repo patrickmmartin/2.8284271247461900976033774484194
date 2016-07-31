@@ -26,7 +26,7 @@ TEST_CASE("Square roots are computed (small range)", "[algorithms]") {
     auto naive = my_sqrt_naive(arg); // terribly inefficient
     auto DOOM = my_sqrt_homage_to_carmack(arg);
     auto DOOM64 = my_sqrt_homage_to_carmack64(arg);
-	auto inv = my_inverse_sqrt(arg);
+    auto inv = my_inverse_sqrt(arg);
 
     // TODO(PMM) - check out the epsilon Approx uses
     REQUIRE(std_sqrt == Approx(closed));
