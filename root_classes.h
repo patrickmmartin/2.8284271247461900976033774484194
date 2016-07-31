@@ -113,7 +113,7 @@ template <typename COUNTER = NullCounter> struct NewtonRaphsonND {
 /**
  * class implementing range reduction solution
  */
-template <typename COUNTER = NullRangeCounter> struct RangeReduction {
+template <typename COUNTER = NullRangeCounter> struct BisectionSearch {
   double operator()(double value) {
     COUNTER counter;
 
