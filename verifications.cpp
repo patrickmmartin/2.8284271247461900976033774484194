@@ -15,7 +15,7 @@
 
 TEST_CASE("Square roots are computed (small range)", "[algorithms]") {
 
-  for (int i = -5; i < 5; i += 1) {
+  for (int i = -10; i < 10; i += 1) {
     double arg = pow(10, i);
     CAPTURE(arg);
     auto std_sqrt = sqrt(arg);
@@ -35,8 +35,7 @@ TEST_CASE("Square roots are computed (small range)", "[algorithms]") {
     REQUIRE(std_sqrt == Approx(range));
     REQUIRE(std_sqrt == Approx(naive));
     REQUIRE(std_sqrt == Approx(DOOM).epsilon(0.1));
-    // TODO(PMM) this does not work for all values?
-//    REQUIRE(std_sqrt == Approx(DOOM64).epsilon(0.1));
+    REQUIRE(std_sqrt == Approx(DOOM64).epsilon(0.1));
     REQUIRE(std_sqrt == Approx(inv));
   }
 }
@@ -73,12 +72,16 @@ TEST_CASE("Square roots are computed (denorm range)", "[algorithms]") {
     auto bablyonian = my_sqrt_bablyonian(arg);
     auto newton = my_sqrt_newtonraphson(arg);
     auto range = my_sqrt_range(arg);
-    auto DOOM2 = my_inverse_sqrt(arg);
+    auto DOOM = my_sqrt_homage_to_carmack(arg);
+    auto DOOM64 = my_sqrt_homage_to_carmack64(arg);
+    auto inv = my_inverse_sqrt(arg);
 
     REQUIRE(std_sqrt == Approx(closed));
     REQUIRE(std_sqrt == Approx(bablyonian));
     REQUIRE(std_sqrt == Approx(newton));
     REQUIRE(std_sqrt == Approx(range).epsilon(0.001));
-    REQUIRE(std_sqrt == Approx(DOOM2));
+    REQUIRE(std_sqrt == Approx(DOOM));
+    REQUIRE(std_sqrt == Approx(DOOM64));
+    REQUIRE(std_sqrt == Approx(inv));
   }
 }

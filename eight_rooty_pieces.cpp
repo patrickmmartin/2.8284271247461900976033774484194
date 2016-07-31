@@ -217,10 +217,12 @@ double my_sqrt_homage_to_carmack(float x) {
  */
 double my_sqrt_homage_to_carmack64(double x) {
   double xhalf = x * 0.5;
-  long long i = *(long long *)&x;
-  i = 0x5fe6eb50c7b537a9 - (i >> 1);
-  x = *(float *)&i;
-  x = x * (1.5f - xhalf * x * x);
+  long long i = *(long long *)&x;     // get bits for floating value
+  i = 0x5fe6eb50c7b537a9 - (i >> 1);  // gives initial guess y0
+  x = *(double *)&i;                  // convert bits back into double
+
+  x = x * (1.5f - xhalf * x * x);    // one Newton Raphson step
+
   return 1 / x;
 }
 
