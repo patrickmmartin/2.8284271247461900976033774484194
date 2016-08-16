@@ -7,7 +7,9 @@ Interview Questions
 _Sigh_ Some things we have to deal with.
 Interview Questions.
 
-People are _always talking about interview techniques_, let rarely _talking about how awful they are at interviewing_.
+TODO(PMM) Punch up and clarify 
+I've been interviewing quite a lot recently and so to me it feels people are _always talking about interviews and interview questions_, let less commonly _talking about how awful interviews can be for all concerned_.
+
 TODO(PMM) ref. Yegge blog rant, many, many others  
 
 Open question for discussion: how many of these "questions" have genuine "breadth and depth"? [1]
