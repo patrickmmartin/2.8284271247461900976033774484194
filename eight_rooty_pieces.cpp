@@ -43,7 +43,7 @@ double my_sqrt_bablyonian(double val) {
 double my_sqrt_newtonraphson(double val) {
 
   // TODO(PMM) should fail?
-  double x = val / 2;
+  long double x = val / 2;
 
   while (fabs((x * x) - val) > (val / 1E9)) {
     // x * x - val is the function for which we seek the root
