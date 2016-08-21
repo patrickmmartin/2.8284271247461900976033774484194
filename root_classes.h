@@ -74,7 +74,7 @@ template <typename COUNTER = NullCounter> struct NewtonRaphsonCF {
     COUNTER counter;
     int n = 1;
 
-    double x = seed_root(value);
+    long double x = seed_root(value);
 
     counter(n, x);
     while ((n < ITERATIONS) && (fabs((x * x) - value) > (value * TOLERANCE))) {
@@ -95,7 +95,7 @@ template <typename COUNTER = NullCounter> struct NewtonRaphsonND {
     COUNTER counter;
     int n = 1;
 
-    double x = seed_root(value);
+    long double x = seed_root(value);
 
     counter(n, x);
     while ((n < ITERATIONS) && (fabs((x * x) - value) > (value * TOLERANCE))) {
