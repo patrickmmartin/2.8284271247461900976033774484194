@@ -5,61 +5,73 @@ Interview Questions
 ===
 
 _Sigh_ Some things we have to deal with.
-Interview Questions.
 
-TODO(PMM) Punch up and clarify 
-I've been interviewing quite a lot recently and so to me it feels people are _always talking about interviews and interview questions_, let less commonly _talking about how awful interviews can be for all concerned_.
+Like Interview Questions.
 
-TODO(PMM) ref. Yegge blog rant, many, many others  
+I've been interviewing candidates a bit more recently and naturally some old questions I had have come to the fore on this activity.
+To me it feels like there is a lot of advice on technical interviewing floating around. One outcome is the "well practiced interviewee" although I must observe many interviews ask questions bearing no relation to the final work.
+This is not necessarily a bad idea: if the questions are not treated as an exercise in accumulating points, but instead designed to illuminate the candidate's specific domain expertise, breadth of experience or ability to work through a problem, one can learn effectively about the candidate.
+Finally, if we want to hire people from whom we will learn something, how much will we glean from asking them to reproduce the answer we want to hear?
 
-Open question for discussion: how many of these "questions" have genuine "breadth and depth"? [1]
+So are there interview questions that have genuine "breadth and depth"? [1]
 
-I suspect that's a genuinely tough attribute to imbue such a question with.
-My personal leaning is that my role as a technical interviewer is to generate _extra discussion fuel_ so that in the _initial 15 minutes_ * that the candidate and I are forming a mutual opinion, I will get as representative a sampling as possible.
+My impression is that technical interview questions inherently are somewhat barren and will run out of steam quite quickly.
+Having avoided the latter type of question, the next hurdle is when the candidate shows signs of being suitable for the next level of productive discussions, whether the interviewer has prepared sufficiently well.
+Remember, the candidate is interviewing you simultaneously!
 
-I tend to leave "rooting out the axe murderers" etc. to other stages in the process.    
+My entirely personal unscientific preference for my role in technical interviews is to generate _extra discussion fuel_ so that in the _initial 15 minutes_ that the candidate and I are forming a mutual opinion, I will get (and generate) as representative a sample as possible.
+The candidate doesn't know what we know, and we don't know what they know and they will be on the spectrum of ability when it comes to blowing their own trumpet. 
 
-* because yes, we're all grown ups here, right? Feel free to continue with the "endurance race" if you wish, if it makes you happy, though.   
+In the interest of proselytising for discussion topics that will generate _extra discussion fuel_, here's a little fun question I've been carting around for some time and it's grown to being either
+* a significant number of sheets of paper
+* or one page of an entirely unusable font size
 
-So, anyhoo .... In the interest of proselytising for discussion topics that will generate _extra discussion fuel_, here's a little fun question I've been carting around for some time and it's grown to either 
-* a number of sheets of paper, or
-* one page of an entirely unusable font size
 
-"implement the square root function"
+The Question
 ---
 
-https://en.wikipedia.org/wiki/Methods_of_computing_square_roots
+"please implement the square root function"
+[wikipedia_sqrt]
+[monkeys_sqrt]
 
 ### What one learns in asking this question
 
-* Some people are really, really, frightened of sqrt() in this context. I am not judging, by the way.
+* First up: some people are really, really, frightened of sqrt() in this context. I am not judging, by the way.
 * There is a giant range in the comfort level for working through the issues in implementing this _deceptively simple_ function.
-* People are generally wrong to be frightened of the problem.
+* People are generally wrong to be frightened of the problem and often surprise themselves when they reach the end.
 * There's a very large number of approaches that are recognisable.
 
-It seems people pass through shock and a number of other stages when presented with this challenge: Denial, Anger, Bargaining, Depression.
-I would like to think we can short-circuit this and skip straight to Acceptance (and a little Fun?).
+So yes, it would be a fair point that there is a sneaky element of testing character and resilience with this question.
+I am going to argue this is legitimate and worthwhile on my assertion that [i] it's not that hard and [ii] there is so much to discuss that running out of steam / time is not that much of an issue in the wider scheme of things.
+
+Nevertheless it seems people pass through shock and a number of other stages when presented with this challenge: Denial, Anger, Bargaining, Depression.
+I would like to think we can short-circuit this and skip straight to Acceptance (and perhaps a little Fun?).
 
 
-### Unstructured points that may arise
+### Initial Unstructured points 
 
-* what is the return type? [return_type]
+The exercise typically goes through a number of phases, among the first of which should be something like scoping out the problem.
+ 
+This can be a very revealing phase: testing the candidates' process for collecting information. 
+Some make adequate assumptions and plough on, some ask about which arbitrary precision packages we're allowed to use.
+
+Here's a list of things one might want to touch upon
+
+* what is the return type? 
   * _extra discussion fuel_ for any proposals for arbitrary precision - oh, wait, is there a problem there? _extra discussion fuel_  
-* ok, what's the input type? [input_type]
-    * same as the return type? _extra discussion fuel_ why? [types_in_expressions] 
-* ok, now what happens to the domain and range ? [domain_and_range]
+* what's the input type?
+    * same as the return type? _extra discussion fuel_ why? [domain_and_range]
+* ok, now what happens to the domain and range? [domain_and_range] 
 	* _extra discussion fuel_ what's happened to the _number_ of bits of information we have in the input?
-* what happens to 1?, > 1?, < 1? _extra discussion fuel_
+* what happens for inputs of 1?, > 1?, < 1? _extra discussion fuel_
     * is this going to influence your thinking on the approach you take?
 * what is your criterion for accuracy?
     * how about sqrt(x) == sqrt(x) _extra discussion fuel_
     * how about float denormal [float_denormal]      
-* TODO any more remaining unstructured points?
-* what will we get for sqrt(2.0) [sqrt_unintuitive]
-   * oh, that rabbit hole goes deep!
-* "hey, what do CPUs do"? _extra discussion fuel_ [cpu_sqrt]
+* assuming your input is a binary FP number, what about NAN?
+* "oh hey, what do CPUs do"? _extra discussion fuel_ [cpu_sqrt]
     * you may want to keep your powder dry when asked, so push it, and pop it later 	
-* finally, $bright_spark may well know the POSIX proto: [posix_sqrt_proto]
+* finally, $bright_spark may well know the POSIX prototypes: [posix_sqrt_proto]
   
 		#include <math.h>
 		double sqrt(double x);
@@ -67,44 +79,39 @@ I would like to think we can short-circuit this and skip straight to Acceptance 
 		long double sqrtl(long double x);
 
 
-Eight (or so) approaches
+Eight approaches
 ===
+
+Code demonstrating testable implementations of all the following is available at 
+
+http://www.github.com/patrickmmartin/2.8284271247461900976033774484194
 
 Caveat
 ---
 
-Please remember it may be hard to find canonical examples "out there" of some of these algorithms.
+Please remember that for some of the later implementations it may be hard to find canonical examples "out there" of some of these algorithms.
 This is because they are in fact, completely rubbish.
 I'll try to point out the most egregious transgressions. 
-The others are pretty much the Gold Standard, so I should really only direct anyone to other people's more considered knowledge on the topic.
+The others are pretty much shadows of the many Gold Standard, so I should really only direct anyone to other people's more considered knowledge on the topic.
 Remember though, the name of the game here is to get _extra discussion fuel_, any and all means are acceptable.
 
 Alien Technology
 ---
 
-An additional benefit of these discussions is when a _novel implementation_ arises, having a little preparation will serve you well in recognising a variant of one of the following principles and steering the code/conversation in a more productive direction for _extra discussion fuel_.
-
+An additional benefit of these discussions is when a _novel implementation_ arises, having some preparation under your belt will serve you well in recognising a variant of one of the following principles and steering the code/conversation in a more productive direction for _extra discussion fuel_.
+At this point, for those who are employing online code editors with the ability to run the code, this can be a real force multiplier for those candidates who are so minded, as this function is so easy to test and feed in edge cases. 
 
 
 Closed form FOR THE WIN
 --
 
-explanation: closed form for the win!
+Explanation: closed form for the win!
 
 	return exp(0.5 * log(val));
 
 This hinges on the identity
 
 	log x^y = y log x
-
-So we get	
-	
-	log x^0.5 = 0.5 * log x
-	
-Now full disclosure - I don't _miss_ slide rules in the classroom - (yes, that did in fact happen), but as a consequence of using this identity with a physical device this result does feel perfectly intuitive to me.
-So much so I feel odd having to write the proof. 	
-	
-ooh ooh! _extra discussion fuel_ - which base might be better? TODO(PMM) I have no idea
 
 
 Moving onto Search Algorithms
@@ -135,22 +142,19 @@ and hence:
 	  return x;
 	}
 
+The loop is controlled by a test on whether we're "near enough" to the answer _extra discussion fuel_.
 
-You know, I wrote an explanation of the arithmetic when I was clearly off form (i.e. in the same slightly stunned state as the candidate), but now I am engrossed in writing this it seems slightly obvious...
-In this case, it's best to press on.
-The loop is controlled by a test on whether we're "near enough" to the answer _extra discussion fuel_ TODO(PMM) which alogorithm start starts taking forever for smaller inputs?
-
-Note the new root guess reduces to x = 0.5 * 2 * x when x * x = val.
-
-Finally, note the mechanism for generating a new input always narrows the difference between the input and value / input. TODO(PMM) - why is this enough for convergence?
+Finally, note the mechanism for generating a new trial value always narrows the difference between the trial and trial / input.
+TODO(PMM) - why is this enough for convergence? gradient = 2x -> error proportional to DeltaX, hence reducing DeltaX can only reduce DeltaY
 
   
 Notable points:
 * possibly the only algorithm that you can implement using a piece of rope and a setsquare.
-* one fact I had not appreciated about this *bronze age* technique is that it reduces to one implementation of the following:- Newtown Raphson
+* one fact I had not appreciated about this *bronze age* technique is that it reduces to one implementation of the following:- Newton Raphson
+* this algorithm is somewhat unique in that it can handle findng the negative root if that's the trial value generated TODO(PMM)
 
 ### Newton Raphson
-Explanation: Newton Raphson [newton_raphson] search for the root of (x^2 - value) 
+Explanation: Newton Raphson [newton_raphson] searches for the root of (x^2 - value) 
   
 	double my_sqrt_newtonraphson(double val) {
 	
@@ -174,9 +178,6 @@ Graphical explanation:
 For _extra discussion fuel_ see also related to the Householder methods [householder_methods]
 
 
-
-
-
 ### With Closed form for the gradient 
 This implementation relies upon knowing the result `d(x^2)/x = 2x` and hence plugging in the closed form result for dy/dx as 2*x, so we can skip the noise of having to numerically estimate the gradient.
 
@@ -193,7 +194,7 @@ This implementation relies upon knowing the result `d(x^2)/x = 2x` and hence plu
   
 
 So far all the loops have used identical loops, merely with different expressions in the middle.
-Let's take a closed look at that expression: that with the closed form for the gradient we get this expression:
+Let's take a closer look at that expression: that with the closed form for the gradient we get this expression:
       
       x = x - ((x * x - value) / (2 * x));
 
@@ -205,16 +206,7 @@ Let's take a closed look at that expression: that with the closed form for the g
       
 So confession time - having encountered the two methods (Bablyonian and Newton Raphson) independently, I missed the equivalence between them until I printed out the iteration values.
 
-Yet another confession - even with the mathematical equivalence there was still a difference as the version just shown has an issue - it fails to locate values roots above sqrt(std::numeric_limits<double>::max()). 
-
-The fix - perhaps unsurprisingly enough - is thus:
-
-         - double x = seed_root();
-         + _long_ double x = seed_root();
-	  
-Another discussion point is the necessity of introducing the long version of the type in the algorithm. Is this a maintenance wart, or good numerical analysis?
-
-Also, at this point, the candidate may re-visit their choice of input and output types.
+TODO(PMM) check the long double issues?
 
 The Bablyonian method is arguably more straightforward due to the simpler expression that eliminates the need to raise intermediate expressions to higher powers that run the risk of overflow. 
 
@@ -237,8 +229,6 @@ explanation: range reduction approach (does not rely upon a good initial guess, 
 
     while ((n < RANGE_ITERATIONS) &&
            (fabs((x * x) - value) > (value * TOLERANCE))) {
-
-      counter(n, lower, upper);
 
       if (((x * x) > value))
         upper = x;
@@ -292,14 +282,13 @@ precision leads to jagged
 	}
  
 
-### Carmack method
+### "Homage to Carmack" method
 explanation: just for fun, old example of a very fast approximate inverse square root.
 Here is the obligatory xkcd reference [carmack_xkcd] still works (on Intel).
 There is also a good writeup of how this even works [inverse_sqrt].
 Note there are other values for the magic value than 0x5f375a86 - which oddly get more search hits(?!!).
 
 	  // actually Chris Lomont version via SO, allegedly
-	  // note: are we running on Little-Endian, hmm? :P
 	
 	  float xhalf = 0.5f * x;
 	  int i = *(int *)&x;        // get bits for floating value
@@ -313,22 +302,25 @@ Note there are other values for the magic value than 0x5f375a86 - which oddly ge
 	
 	  return 1 / x;
 
+And the version supporting double
 
-TODO(PMM) - how the hell does this work?
+	  double xhalf = x * 0.5;
+	  long long i = *(long long *)&x;    // get bits for floating value
+	  i = 0x5fe6eb50c7b537a9 - (i >> 1); // gives initial guess y0
+	  x = *(double *)&i;                 // convert bits back into double
+	
+	  x = x * (1.5f - xhalf * x * x);    // one Newton Raphson step
+	
+	  return 1 / x;
 
-### Quantum computer method ( Note: requires 2^64 qbits )
+
+TODO(PMM) - explain how the hell does this work?
+
+### Quantum computer method ( Note: requires up to 2^64 qbits )
 
 explanation: for each value in double: return value if value ^ 2 == input
 
-
-## Conclusion
-
-So, let's review what we can get out of "implement sqrt()" in terms of discussion topics: closed form results versus algorithmic solutions - some understanding of complexity analysis, discussion on the many interesting properties of floating point calculations, bronze age mathematical algorithms, consideration of domains and ranges.
-I haven't even touched upon error handling, but it's needed. 
- 
- 
-
-### What didn't make the cut
+### "Also Ran"
 
 bogosqrt:
  
@@ -352,37 +344,42 @@ just a large constant!
 
 worstsqrt:
 
-	NOT ATTEMPTED
+	NOT ATTEMPTED (TODO(PMM) AWARD BONUS POINTS FOR THIS)
 
+
+## Conclusion
+
+So, let's review what we can get out of "implement sqrt()" in terms of discussion topics: closed form results versus algorithmic solutions - some understanding of complexity analysis, discussion on the many interesting properties of floating point calculations, bronze age mathematical algorithms, consideration of domains and ranges.
+I haven't even touched upon error handling, but it's needed. 
+
+## You may have some questions
+Here's my attempt to anticipate them.
+
+### What's with the name for the repo?
+It's square root of 8 - cube root would have yielded a simpler name, but that article is still in the works. 
+
+### Will the Fast sqrt work on big-endian?
+Very funny.
 
 References
 ----
 
-
-[TODOREF1] https://en.wikipedia.org/wiki/Methods_of_computing_square_roots
-[TODOREF2] http://www.azillionmonkeys.com/qed/sqroot.html
-
-
 [1] why are we using questions?
 
+[wikipedia_sqrt] https://en.wikipedia.org/wiki/Methods_of_computing_square_roots
 
+[monkeys_sqrt] http://www.azillionmonkeys.com/qed/sqroot.html
 
-
-[return_type] TODO(PMM)
-
-[input_type] TODO(PMM)
-
-[types_in_expressions] TODO(PMM) 
-
-[domain_and_range] TODO(PMM)
+[domain_and_range]
+For IEEE 754 double, the maximum sqrt will exceed the maximum value for IEEE 754 float, so this forces us to consider the same return type as the input type 
 
 [float_denormal] https://en.wikipedia.org/wiki/Denormal_number      
 
-[cpu_sqrt] TODO(PMM)
+[cpu_sqrt]
+These might be using optimised hardware, native CPU commands or hand-crafted solutions.
+In the silicon, one might find GoldSchmidt's method, or Newton Raphson
 
 [posix_sqrt_proto] http://pubs.opengroup.org/onlinepubs/9699919799/functions/sqrt.html
-
-[questions] also, "questions" ?
 
 [householder_methods] https://en.wikipedia.org/wiki/Householder%27s_method
  

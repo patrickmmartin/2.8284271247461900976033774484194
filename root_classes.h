@@ -74,7 +74,7 @@ template <typename COUNTER = NullCounter> struct NewtonRaphsonCF {
     COUNTER counter;
     int n = 1;
 
-    long double x = seed_root(value);
+    double x = seed_root(value);
 
     counter(n, x);
     while ((n < ITERATIONS) && (fabs((x * x) - value) > (value * TOLERANCE))) {
@@ -95,12 +95,12 @@ template <typename COUNTER = NullCounter> struct NewtonRaphsonND {
     COUNTER counter;
     int n = 1;
 
-    long double x = seed_root(value);
+    double x = seed_root(value);
 
     counter(n, x);
     while ((n < ITERATIONS) && (fabs((x * x) - value) > (value * TOLERANCE))) {
       // x * x - value is the function for which we seek the root
-      double gradient =
+      long double gradient =
           (((x * 1.5) * (x * 1.5)) - ((x * 0.5) * (x * 0.5))) / (x);
       x = x - ((x * x - value) / gradient);
       n++;
