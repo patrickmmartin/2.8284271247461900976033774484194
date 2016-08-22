@@ -206,7 +206,16 @@ Let's take a closer look at that expression: that with the closed form for the g
       
 So confession time - having encountered the two methods (Bablyonian and Newton Raphson) independently, I missed the equivalence between them until I printed out the iteration values.
 
-TODO(PMM) check the long double issues?
+Yet another confession - even with the mathematical equivalence there was still a difference as the version just shown has an issue - it fails to locate values roots above sqrt(std::numeric_limits<double>::max()). 
+
+The fix - perhaps unsurprisingly enough - is thus:
+
+         - double x = seed_root();
+         + _long_ double x = seed_root();
+	  
+Another discussion point is the necessity of introducing the long version of the type in the algorithm. Is this a maintenance wart, or good numerical analysis?
+
+Also, at this point, the candidate may re-visit their choice of input and output types.
 
 The Bablyonian method is arguably more straightforward due to the simpler expression that eliminates the need to raise intermediate expressions to higher powers that run the risk of overflow. 
 
