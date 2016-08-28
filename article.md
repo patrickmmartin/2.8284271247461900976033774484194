@@ -44,7 +44,7 @@ I am not judging, let us be clear.
 #### People are generally wrong to be frightened of the problem.
 They often surprise themselves when they reach the end.
  
-#### There's quite a few approaches that are recognisable.
+#### There are quite a few approaches that are recognisable.
 
 #### 5.000000 stages of shock
 It would be a fair point that there is a sneaky element of testing character and resilience with this question.
@@ -158,8 +158,10 @@ Explanation: Newton Raphson [newton_raphson] searches for the value of x yieldin
 Graphical explanation:
 
 	pick a trial value
-	search for the zero by building the line passing through
-	the current trial input and output at the gradient of the function at that point
+	search for the zero
+	by building the line passing through
+	the current trial output with the gradient
+	of the function at that point
 		- a numerically estimated gradient will do, for _discussion points_.
 	the intersection of that triangle with zero is the new trial
 	exit when desired accuracy attained
@@ -172,15 +174,16 @@ here's one interpretation:
         double x = seed_root();
           
 	  while (fabs((x * x) - val) > (val * TOLERANCE)) {
-          // x * x - value is the function for which we seek the root
-          double gradient = (((x * 1.5) * (x * 1.5)) - ((x * 0.5) * (x * 0.5))) / (x);
+          // x * x - value is the root sought
+          double gradient =
+			(((x * 1.5) * (x * 1.5)) - ((x * 0.5) * (x * 0.5))) / (x);
           x = x - ((x * x - value) / gradient);
 	  }
 	  return x;
 	}
 	```
   
-For _discussion points_ see also related to the Householder methods [wikipedia_householder_methods]
+For _discussion points_ see also the related Householder methods [wikipedia_householder_methods]
 
 ### Newton Raphson With a closed form identity for the gradient 
 Now, some may know that there is a very simple result `d(x^2)/x = 2x` for the gradient that is needed for Newton Raphson and hence plugging in the closed form result for dy/dx, we can skip some typing to yield this.
@@ -191,7 +194,7 @@ Now, some may know that there is a very simple result `d(x^2)/x = 2x` for the gr
           double x = seed_root();
           
 	  while (fabs((x * x) - val) > (val * TOLERANCE)) {
-	    // x * x - val is the function for which we seek the root
+	    // x * x - val is root sought
 	    x = x - ((x * x - val) / _(2 * x)_);
 	  }
 	  return x;
@@ -295,7 +298,8 @@ Feed it a decent enough initial guess and it will work its way towards the solut
 	    double lastdiff = 0;
 	    double diff = (x * x) - value;
 	
-	    while ((n < RANGE_ITERATIONS) && (fabs(diff) > (value * TOLERANCE))) {
+	    while ((n < RANGE_ITERATIONS) &&
+			    (fabs(diff) > (value * TOLERANCE))) {
 	      if (diff > 0)
 	        x -= step;
 	      else
@@ -344,11 +348,15 @@ And here is a version supporting double, with the appropriate 64-bit magic value
 	```c++
 	double my_sqrt_homage_to_carmack64(double x) {
 		double xhalf = x * 0.5;
-		long long i = *(long long *)&x;    // get bits for floating value
-		i = 0x5fe6eb50c7b537a9 - (i >> 1); // gives initial guess y0
-		x = *(double *)&i;                 // convert bits back into double
+		// get bits for floating value
+		long long i = *(long long *)&x;    
+		// gives initial guess y0
+		i = 0x5fe6eb50c7b537a9 - (i >> 1); 
+		// convert bits back into double
+		x = *(double *)&i;                 
 		
-		x = x * (1.5f - xhalf * x * x); // one Newton Raphson step
+		// one Newton Raphson step
+		x = x * (1.5f - xhalf * x * x); 
 		
 		return 1 / x;
 	}
@@ -439,4 +447,5 @@ has a number of interesting comparisons, including old and modern native SQRT in
 [inverse_sqrt] https://en.wikipedia.org/wiki/Fast_inverse_square_root
 
 [wikipedia_bogosort] https://en.wikipedia.org/wiki/Bogosort
+
 
