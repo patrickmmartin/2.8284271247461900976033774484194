@@ -34,7 +34,8 @@ int main(int argc, char *argv[]) {
   std::cout << "\n";
 
   std::cout << "input, closed form,closed form result,std sqrt,std sqrt "
-               "result,Hero,Hero result, NR, NR result, BS, BS result, SS, SS result, Quake64, Quake64 "
+               "result,Hero,Hero result, NR, NR result, BS, BS result, SS, SS "
+               "result, Quake64, Quake64 "
                "result\n";
   for (double arg = std::numeric_limits<double>::min();
        arg < std::numeric_limits<double>::max(); arg *= 1e100) {

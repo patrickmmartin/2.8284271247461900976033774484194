@@ -13,9 +13,8 @@ TEST_CASE("float values are sorted as integers", "oddities") {
   }
 }
 
-
 // could take several months?
-//TEST_CASE("double values are sorted as integers", "oddities") {
+// TEST_CASE("double values are sorted as integers", "oddities") {
 //
 //  long long const zero = 0;
 //  double prior = *(float *)&zero;
