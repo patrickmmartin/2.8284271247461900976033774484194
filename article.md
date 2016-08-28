@@ -277,14 +277,14 @@ The algorithm takes 30 iterations for a double sqrt as achieving over 10 digits 
     return x;
     }```
 
-If this is found in the wild. it would probably be best to put it out of it's misery.
+If this is found in the wild. it would probably be best to put it out of its misery.
 The possible benefit of this is that candidates less confident of their mathematics will be able to implement this by concentrating purely upon the logic of searching 
 
 
 ### Scan and step reduction 
 
 This is a very naive guess step and scan approach, reversing and decreasing step on each transition.
-Feed it a decent enough inital guess and it will work its way towards the solution, as it is another linearly convergent solution.  
+Feed it a decent enough initial guess and it will work its way towards the solution, as it is another linearly convergent solution.  
  
 	 ```c++
 	 double my_sqrt_naive(double val) {
@@ -317,7 +317,7 @@ Feed it a decent enough inital guess and it will work its way towards the soluti
 Finally, the origin of seed_root() can be revealed.
 Yes, just for fun, an old example of a very fast approximate inverse square root.
 Here is the obligatory xkcd reference [carmack_xkcd].
-This still works (on Intel), and there is also a good writeup of how this works [inverse_sqrt].
+This still works (on Intel), and there is also a good write-up of how this works [inverse_sqrt].
 Note there are other values for the magic value than 0x5f375a86 - which oddly get more search hits in Google(?!!).
 
 The original code, sadly has comments and ```#ifdef``` rendering it unsuitable for printing in a family oriented programming publication, so here is modified version from [SO_chris_lomont].
@@ -436,3 +436,4 @@ In the silicon, one might find GoldSchmidt's method, or Newton Raphson
 [inverse_sqrt] https://en.wikipedia.org/wiki/Fast_inverse_square_root
 
 [wikipedia_bogosort] https://en.wikipedia.org/wiki/Bogosort
+
