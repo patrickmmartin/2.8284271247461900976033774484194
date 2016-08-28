@@ -36,7 +36,7 @@ One thing I like about this question as that it's really quite easy to run and t
 
 ### What one learns in asking this question
 
-#### First up: some people are really, quite wary of of sqrt() in this context.
+#### First up: some people are really, quite wary of sqrt() in this context.
 I am not judging, let us be clear.
 
 #### There is a giant range in the comfort level for working through the issues in implementing this _deceptively simple_ function.
