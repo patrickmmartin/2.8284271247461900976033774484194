@@ -150,8 +150,8 @@ template <typename COUNTER = NullRangeCounter> struct ScanAndStep {
     COUNTER counter;
 
     int n = 1;
-    double x = value / 2;
-    double step = value / 2;
+    double x = seed_root(value) / 2;
+    double step = x / 4;
     double lastdiff = 0;
     double diff = (x * x) - value;
 
@@ -164,10 +164,11 @@ template <typename COUNTER = NullRangeCounter> struct ScanAndStep {
       counter(n, x, step);
 
       if ((diff > 0) != (lastdiff > 0)) {
-        step = step * 0.5;
+        step = step * 0.50;
       }
       lastdiff = diff;
       diff = (x * x) - value;
+      n++;
     }
 
     return x;

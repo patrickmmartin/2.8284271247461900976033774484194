@@ -37,15 +37,11 @@ struct PrintingCounter {
     std::cout << n << ", " << value;
     return value;
   }
-};
-
-/**
- * simple printer for logging iterations of range algorithms
- */
-struct PrintingRangeCounter {
-  double operator()(int n, double lower, double upper) {
-    std::cout << n << ", " << lower << ", " << upper << "\n";
-    return upper;
+  void operator()(int n, double lower, double upper) {
+    std::cout << n << ", " << lower << ", " << upper;
+  }
+  void operator()(int n, double lower, int step, int dummy) {
+    std::cout << n << ", " << lower;
   }
 };
 
@@ -67,8 +63,8 @@ struct SummaryCounter {
  * simple printer for logging final result and n
  */
 struct SummaryRangeCounter {
-  int _n;
-  double _lower, _upper;
+  int _n = 0;
+  double _lower = -1, _upper = -1;
   double operator()(int n, double lower, double upper) {
     _n = n;
     _lower = lower;
