@@ -63,8 +63,8 @@ struct SummaryCounter {
  * simple printer for logging final result and n
  */
 struct SummaryRangeCounter {
-  int _n = 0;
-  double _lower = -1, _upper = -1;
+  int _n;
+  double _lower, _upper;
   double operator()(int n, double lower, double upper) {
     _n = n;
     _lower = lower;
@@ -74,6 +74,8 @@ struct SummaryRangeCounter {
   ~SummaryRangeCounter() {
     std::cout << _n << ", " << _lower << ", " << _upper << "\n";
   }
+
+  SummaryRangeCounter():_n(), _lower(), _upper() {}
 };
 
 #endif /* ROOT_RUNNER_H_ */
