@@ -158,7 +158,8 @@ Explanation: Newton Raphson [newton_raphson] searches for the value of x yieldin
 Graphical explanation:
 
 	pick a trial value
-	search for the zero by building a triangle from the current trial input and output and the gradient at that point, (for which the prior factoid is handy).
+	search for the zero by building the line passing through
+	the current trial input and output at the gradient of the function at that point
 		- a numerically estimated gradient will do, for _discussion points_.
 	the intersection of that triangle with zero is the new trial
 	exit when desired accuracy attained
