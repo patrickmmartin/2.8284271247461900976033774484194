@@ -23,7 +23,7 @@ Well, here's a little fun question I've been carting around for some time that I
 * a significant number of sheets of paper
 * or one page of an entirely unusable font size
 
-Without further ado:
+So, without further ado.
 
 The Question
 ---
@@ -32,18 +32,17 @@ The Question
 [wikipedia_sqrt]
 [monkeys_sqrt]
 
-One thing I like this question as it's really quite easy to run and test even in some minimal web based online coding tool.
+One thing I like about this question as that it's really quite easy to run and test even in some minimal web based online coding tool.
 
 ### What one learns in asking this question
 
-
-#### First up: some people are really, really, frightened of sqrt() in this context.
+#### First up: some people are really, quite wary of of sqrt() in this context.
 I am not judging, let us be clear.
 
 #### There is a giant range in the comfort level for working through the issues in implementing this _deceptively simple_ function.
 
 #### People are generally wrong to be frightened of the problem.
- They often surprise themselves when they reach the end.
+They often surprise themselves when they reach the end.
  
 #### There's quite a few approaches that are recognisable.
 
@@ -83,7 +82,6 @@ Assuming we're here though: here's an incomplete list of things one might want t
 		float sqrtf(float x);
 		long double sqrtl(long double x);
 
-
 Eight approaches
 ===
 
@@ -97,17 +95,15 @@ http://www.github.com/patrickmmartin/2.8284271247461900976033774484194
 ### Caveat
 
 Please remember that for some of these implementations it may be hard to find canonical examples "out there" of some of these algorithms.
-This is because they are in fact, completely rubbish.
-I'll try to point out the most egregious transgressions. 
-The more "recognisable versions" are pretty much shadows of the many thoroughly written-up versions already available for research, so I can really only direct the reader to the those.
+This is because they are in fact, a bit rubbish.
+The more "recognisable versions" are pretty much shadows of the many already thoroughly written-up versions already available for research.
 Remember though, the name of the game here is to get _discussion points_, any and all means are acceptable.
 
 ### Alien Technology
 
 An additional benefit of these discussions is when a _novel looking implementation_ arises, having some preparation under your belt will serve you well in recognising a variant of one of the following principles and steering the code/conversation in a more productive direction for _discussion points_.
 
-
-## One liners
+## "One liners"
 ### Closed form FOR THE WIN
 
 Explanation: closed form for the win!
@@ -120,14 +116,12 @@ This hinges on the identity
 
 	log x^y = y log x
 
-
-Moving onto Search Algorithms
+Search Algorithms
 ---
 
 This class of solutions hinge on iterating upon a trial value until convergence is attained - I've introduced a ```seed_root()``` function with no explanation that returns a "good initial guess" for sqrt() in order to concentrate on the details.
-We'll come back to seed_root() later on.
+We'll come back to ```seed_root()``` later on.
  
-
 ### The Babylonian method or Hero's method [babylonian]
 The graphical explanation of this algorithm is: iterative search for square root by successive reduction of difference in length between the 2 sides of a rectangle with the area of the input value.
 
@@ -135,7 +129,6 @@ The graphical explanation of this algorithm is: iterative search for square root
 	derive other_side by A / side 
 	if side == other_side - return side
 	else split the difference for the next side and loop
-
 
 and hence:
 
@@ -175,7 +168,7 @@ here's one interpretation:
 	```c++
 	double my_sqrt_newtonraphson(double val) {
 	
-      double x = seed_root();
+        double x = seed_root();
           
 	  while (fabs((x * x) - val) > (val * TOLERANCE)) {
           // x * x - value is the function for which we seek the root
@@ -188,9 +181,8 @@ here's one interpretation:
   
 For _discussion points_ see also related to the Householder methods [wikipedia_householder_methods]
 
-
 ### Newton Raphson With a closed form identity for the gradient 
-Now, some may know that there is a very simple result `d(x^2)/x = 2x` and hence plugging in the closed form result for dy/dx, we can skip some typing to yield this.
+Now, some may know that there is a very simple result `d(x^2)/x = 2x` for the gradient that is needed for Newton Raphson and hence plugging in the closed form result for dy/dx, we can skip some typing to yield this.
 
 	```c++
 	double my_sqrt_newtonraphson(double val) {
@@ -207,27 +199,24 @@ Now, some may know that there is a very simple result `d(x^2)/x = 2x` and hence 
   
 Note that original expression containing the gradient: 
   
-  
     	      ```c++
     	      double gradient = (((x * 1.5) * (x * 1.5)) - ((x * 0.5) * (x * 0.5)))
     	      ```
 
 This is the lazy man's version of calculating the gradient around the domain value ```x``` using the values at ```x +/- b``` 				
 					      
-		      (x + b)^2 - (x - b)^2 / 2b
-		      =>
-		      x^2 + 2bx + b^2 - x^2 + 2bx - b^2 / 2b!
-		      =>
-		      2x!
+      (x + b)^2 - (x - b)^2 / 2b
+      =>
+      x^2 + 2bx + b^2 - x^2 + 2bx - b^2 / 2b!
+      =>
+      2x!
 		      
 		      
-If ```b``` were a constant this would not scale with the value of x, however ```b``` can be ```x/2``` and we recover the code, and hence an equivalent expression for the closed form expression.   
+If ```b``` were a constant this would not scale with the value of x, however ```b``` can be substituted by ```x/2``` and we recover the initial gradient calculation, and hence an equivalent expression for the closed form expression.   
 		      
-[confession time] I picked ```0.5 * x``` and ```1.5 * x``` intuitively, having been hand-bodging numerical estimates into code for some time now, so I didn't think too hard about it (this time around) and serendipitously hit a solution that can be transformed using simple algebra into the Hero solution.
-This also resolved my puzzlement as to why the solutions looked to be behaving entirely identically.  
+[confession time] I first picked ```0.5 * x``` and ```1.5 * x``` intuitively, having been hand-bodging numerical estimates into code for some time now, so I didn't think too hard about it (this time around) and serendipitously hit a solution that can be transformed using simple algebra into the closed form solution.
 
-
-#### 3.0 or 1.0 methods? 
+#### 3.0, 2.0 or 1.0 methods? 
 
 So far the last 3 loops have used identical loops, merely with different expressions for generating new trial values in the middle.
 Let's take a closer look at that expression: that with the closed form for the gradient we get this expression:
@@ -253,7 +242,7 @@ The fix - perhaps unsurprisingly enough - is thus:
          + _long_ double x = seed_root();
 	  
 Another set of _discussion_points_ arise from the necessity of introducing the long version of the type in the algorithm.
-Is this choice and hence having an implicit conversion in the return statement a maintenance wart?
+Is this choice, leading to an implicit conversion in the return statement a maintenance wart?
 What if we need this to be a generic algorithm, parameterised on the input type? 
 
 ## Slow but sure (?)
@@ -264,8 +253,8 @@ Graphical Explanation: a range reduction approach which aims to halve the range 
 Newton Raphson / Hero can be proven to converge quadratically [wikipedia_convergence], whereas this approach effectively converges linearly, hence it requires many more iterations.
 The algorithm takes 30 iterations for a double sqrt as achieving over 10 digits of decimal precision will typically require approximately 30 halvings of the interval.  
 
-	```c++
-	double my_sqrt_range(double val) {
+    ```c++
+    double my_sqrt_range(double val) {
 	
     double upper = seed_root(value) * 10;
     double lower = seed_root(value) / 10;
@@ -284,10 +273,9 @@ The algorithm takes 30 iterations for a double sqrt as achieving over 10 digits 
 
       x = (lower + upper) / 2;
       n++;
-    }
-	```
+      }
     return x;
-  }
+    }```
 
 If this is found in the wild. it would probably be best to put it out of it's misery.
 The possible benefit of this is that candidates less confident of their mathematics will be able to implement this by concentrating purely upon the logic of searching 
@@ -298,7 +286,7 @@ The possible benefit of this is that candidates less confident of their mathemat
 This is a very naive guess step and scan approach, reversing and decreasing step on each transition.
 Feed it a decent enough inital guess and it will work its way towards the solution, as it is another linearly convergent solution.  
  
- 
+	 ```c++
 	 double my_sqrt_naive(double val) {
 	    int n = 1;
 	    double x = seed_root(value) / 2;
@@ -320,7 +308,8 @@ Feed it a decent enough inital guess and it will work its way towards the soluti
 	    }
 	
 	    return x;
-	} 	
+	} 
+	```
  	
 
 ### "Homage to Carmack" method
@@ -333,41 +322,45 @@ Note there are other values for the magic value than 0x5f375a86 - which oddly ge
 
 The original code, sadly has comments and ```#ifdef``` rendering it unsuitable for printing in a family oriented programming publication, so here is modified version from [SO_chris_lomont].
 
-	 float my_sqrt_homage_to_carmack(float val) {
-		  // PMM: adapted from the doubly cleaner Chris Lomont version
+	```c++
+	float my_sqrt_homage_to_carmack(float val) {
+		// PMM: adapted from the doubly cleaner Chris Lomont version
 		
-		  float xhalf = 0.5f * x;
-		  int i = *(int *)&x;        // get bits for floating value
-		  i = 0x5f375a86 - (i >> 1); // gives initial guess y0
-		  x = *(float *)&i;          // convert bits back to float
+		float xhalf = 0.5f * x;
+		int i = *(int *)&x;        // get bits for floating value
+		i = 0x5f375a86 - (i >> 1); // gives initial guess y0
+		x = *(float *)&i;          // convert bits back to float
 		
-		  // PMM: initial guess: to within 10% already!
-		  x = x * (1.5f - xhalf * x * x); // Newton step, repeating increases accuracy
+		// PMM: initial guess: to within 10% already!
+		x = x * (1.5f - xhalf * x * x); // Newton step, repeating increases accuracy
 		
-		  return 1 / x;
+		return 1 / x;
 	  }
+	  ```
 
 And here is a version supporting double, with the appropriate 64-bit magic value. 
 
+	```c++
 	double my_sqrt_homage_to_carmack64(double x) {
-	  double xhalf = x * 0.5;
-	  long long i = *(long long *)&x;    // get bits for floating value
-	  i = 0x5fe6eb50c7b537a9 - (i >> 1); // gives initial guess y0
-	  x = *(double *)&i;                 // convert bits back into double
-	
-	  x = x * (1.5f - xhalf * x * x); // one Newton Raphson step
-	
-	  return 1 / x;
+		double xhalf = x * 0.5;
+		long long i = *(long long *)&x;    // get bits for floating value
+		i = 0x5fe6eb50c7b537a9 - (i >> 1); // gives initial guess y0
+		x = *(double *)&i;                 // convert bits back into double
+		
+		x = x * (1.5f - xhalf * x * x); // one Newton Raphson step
+		
+		return 1 / x;
 	}
+	```
 
 
-The result is not super accurate, but works great as a seed into another algorithm.
+The result is not super accurate, but works in constant time and can be used as a seed into another algorithm.
 
 For the most condensed explanation as to how that even works, see the closed form solution and consider that the bits of a floating point number when interpreted as an integer can be used to approximate its logarithm.  
 
 ## "Also Ran"
 
-In the tradition of sort algorithms, one could always "break the ice" by discussing solutions that make brute force look cunning.   
+In the grand tradition of sort algorithms [wikipedia_bogosort], one could always "break the ice" by discussing solutions that make brute force look cunning.   
 
 ### brutesqrt
  
@@ -376,7 +369,6 @@ In the tradition of sort algorithms, one could always "break the ice" by discuss
 		if (d * d == input) return d
 		d = next_double(d)
 		
-Possibly the 		
 
 ### bogosqrt (homage to bogosort) 
  
@@ -385,15 +377,15 @@ Possibly the
 		if (d * d== input) return d
 		d = random_double()
 
+This and the prior approach will need an approach to define the accuracy of match.
+And perhaps a rather forgiving user calling that code.
 
 ### Quantum computer method
-
 
 	for value in all_doubles:
 		return value if value ^ 2 == input
 		
 It would be hoped that parallelising this would lead to good wall clock times?		
-
 
 ## Conclusion
 
@@ -404,12 +396,9 @@ I haven't even touched upon error handling, but it's needed.
 Here's my attempt to anticipate them.
 
 ### What's with the name for the repo?
-
-#### Why that repo name?
-It's the square root of 8, cube root would be have yielded a simpler name - presaging the next installment!
-Of course, *there will be no next installment*, asone thing we have learned is that this topic is a *giant nerd trap*. 
-
- 
+It's the square root of 8, the number of methods, of course cube root would be have yielded a simpler name - presaging the next installment!
+Note of course, *there will be no next installment*, as one thing we have learned is that this topic is a *giant nerd trap*.
+Merely persuing the references to this article for a short time will show how many areas of exploration exist to be followed. 
 
 ### Will the Fast sqrt work on big-endian?
 Very funny.
@@ -445,3 +434,5 @@ In the silicon, one might find GoldSchmidt's method, or Newton Raphson
 [SO_chris_lomont] http://stackoverflow.com/questions/1349542/john-carmacks-unusual-fast-inverse-square-root-quake-iii
  
 [inverse_sqrt] https://en.wikipedia.org/wiki/Fast_inverse_square_root
+
+[wikipedia_bogosort] https://en.wikipedia.org/wiki/Bogosort
