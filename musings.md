@@ -80,3 +80,12 @@ Note the range is handled separately, and so far, all the approaches handle it f
 ## DONE is there anything in <algorithm> to help?
 - not for a real number domain...
 
+
+## WTF IS THE MD SYNTAX?
+
+
+``` C++
+double gradient = (((x * 1.5) * (x * 1.5)) - ((x * 0.5) * (x * 0.5))) / (x);
+```
+
+
