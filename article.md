@@ -449,10 +449,10 @@ For IEEE 754 double, the maximum sqrt will exceed the maximum value for IEEE 754
 [all_the_nans] https://en.wikipedia.org/wiki/NaN 
 
 [cpu_sqrt]
-These might be using optimised hardware, native CPU commands or hand-crafted solutions.
-In the silicon, one might find GoldSchmidt's method, or Newton Raphson
+These might be using dedicated FPU hardware or native CPU commands.
+In the silicon itself, one might find GoldSchmidt's method, or Newton Raphson;
 http://assemblyrequired.crashworks.org/timing-square-root/
-has a number of interesting comparisons, including old and modern native SQRT instructions.
+has a large number of interesting comparisons, including old and modern native SQRT instructions.
 
 [posix_sqrt_proto] http://pubs.opengroup.org/onlinepubs/9699919799/functions/sqrt.html
 
