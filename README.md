@@ -1,7 +1,8 @@
 2.8284271247461900976033774484194
 ===
 
-![build status](https://travis-ci.org/patrickmmartin/2.8284271247461900976033774484194.svg?branch=master)
+[![Build Status](https://travis-ci.org/patrickmmartin/2.8284271247461900976033774484194.svg?branch=master)](https://travis-ci.org/patrickmmartin/2.8284271247461900976033774484194)
+
 
 This is the support code for the article at
 
