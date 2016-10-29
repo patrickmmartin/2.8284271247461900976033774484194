@@ -1,6 +1,8 @@
 2.8284271247461900976033774484194
 ===
 
+![build status](https://travis-ci.org/patrickmmartin/2.8284271247461900976033774484194.svg?branch=master)
+
 This is the support code for the article at
 
 https://github.com/patrickmmartin/pith-writings/blob/master/eight_rooty_pieces/article.md
